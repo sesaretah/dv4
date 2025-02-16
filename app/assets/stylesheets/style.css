@@ -1,0 +1,100 @@
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+}
+
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+.comapct-form {
+  margin-bottom: 5px;
+  padding: 5px;
+  height: 30px !important;
+  line-height: 1;
+  font-size: 0.875rem !important;
+}
+
+.match {
+  font-weight: 600;
+}
+
+.c3 svg {
+  font-family: yekan !important;
+}
+
+.c3-axis-x text
+{
+  font-size: 7px;
+}
+
+#lean_overlay {
+    position: fixed;
+    z-index:100;
+    top: 0px;
+    left: 0px;
+    height:100%;
+    width:100%;
+    background: #000;
+    display: none;
+}
+
+.header {
+  background: #fff;
+}
+
+.hidden {
+     display:none;
+}
+
+audio {
+  width: 220px;
+}
+
+.fs-10 {
+  font-size: 10px !important;
+}
+
+.fs-12 {
+  font-size: 12px !important;
+}
+
+.fs-11 {
+  font-size: 11px !important;
+}
+
+.pd-compact {
+  padding: 0.15rem 0.3rem;
+}
+
+
+.tooltip { pointer-events: none; }
+
+.pr-5 {
+  padding-right: 5px  !important;
+}
+
+.pr-2 {
+  padding-right: 2px  !important;
+}
+
+.fw-800 {
+  font-weight: 800 !important;
+}
+
+.bg-beige {
+  background-color: beige;
+}
+
+.bg-grass {
+  background-color: #e3fbec;
+}

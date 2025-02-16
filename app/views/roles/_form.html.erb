@@ -1,0 +1,106 @@
+<%= form_for(@role, html: {class: 'card'}) do |f| %>
+<div class="card-header">
+  <h3 class="card-title"><%=t :new_role %></h3>
+</div>
+<% if @role.errors.any? %>
+<div id="error_explanation">
+  <h2><%= pluralize(@role.errors.count, "error") %> prohibited this role from being saved:</h2>
+
+  <ul>
+    <% @role.errors.full_messages.each do |message| %>
+    <li><%= message %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+
+<div class="card-body">
+  <div class="row">
+    <div class="col-md-5">
+      <div class="form-group">
+        <%= f.label :title, class: "form-label" %>
+        <%= f.text_field :title , class: "form-control" %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-5">
+      <div class="form-group">
+        <%= f.label :description, class: "form-label" %>
+        <%= f.text_area :description , class: "form-control" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-5">
+      <div class="form-group">
+        <%= f.label :abr, class: "form-label" %>
+        <%= f.text_field :abr , class: "form-control" %>
+      </div>
+    </div>
+  </div>
+
+  <label class="custom-control custom-checkbox custom-control-inline">
+    <input type="checkbox" class="custom-control-input" name="role[start_point]" <% if !@role.start_point.blank?%>checked<%end%>>
+    <span class="custom-control-label" style='padding-right: 23px;padding-top: 2px;'><%=t :start_point%></span>
+  </label>
+
+<% if @role.id != nil%>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label class="form-label"><%=t :access_groups%></label>
+      <% for access_group in AccessGroup.all%>
+      <% @role_access = RoleAccess.where(access_group_id: access_group.id, role_id: @role.id).first%>
+      <label class="custom-control custom-checkbox custom-control-inline">
+        <input type="checkbox" class="custom-control-input" id="access_group_<%= access_group.id%>" <% if !@role_access.blank?%>checked<%end%> value="<%= access_group.id%>">
+        <span class="custom-control-label" style='padding-right: 23px;padding-top: 2px;'><%= access_group.title%></span>
+      </label>
+      <script>
+      $('#access_group_<%= access_group.id%>').change(function() {
+        if($(this).is(":checked")) {
+          $.ajax({
+            url: '/role_accesses/',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+              role_id: <%= @role.id%>,
+              access_group_id: <%= access_group.id %>
+            },
+            error: function() {
+              $(this).attr("checked", false);
+            },
+            success: function(res) {
+              $(this).attr("checked", true);
+            }
+          });
+        } else {
+          $.ajax({
+            url: '/role_accesses/destroy',
+            type: 'GET',
+            dataType: 'json',
+            data: {
+              role_id: <%= @role.id%>,
+              access_group_id: <%= access_group.id %>
+            },
+            error: function() {
+              $(this).attr("checked", true);
+            },
+            success: function(res) {
+              $(this).attr("checked", false);
+            }
+          });
+        }
+      });
+      </script>
+      <%end%>
+    </div>
+    </div>
+  </div>
+  <%end%>
+
+  <div class="card-footer text-right">
+    <button type="submit" class="btn btn-primary"><%=t :submit%></button>
+  </div>
+  <% end %>

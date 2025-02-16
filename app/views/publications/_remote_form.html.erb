@@ -1,0 +1,70 @@
+<%= form_for(publication, remote: true,  html:{id: 'artcile_publication_form'}) do |f| %>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= f.label :publisher_id, class: "form-label" %>
+        <%= select_tag :publisher_id, options_for_select(Publisher.order(:title).all.collect { |p| [ p.title, p.id ] }), {include_blank: true, class: "form-control"} %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= f.label :publish_source_id, class: "form-label" %>
+        <%= select_tag :publish_source_id, [], {disabled: true, class: "form-control"} %>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  $( "#publisher_id" ).change(function() {
+    var id = $( "#publisher_id" ).val();
+    $.ajax({
+      type: "GET",
+      url: "/publishers/publish_sources/"+id,
+      data: {},
+      success: function (data) {
+        if(data.length > 0){
+          console.log(data);
+          var $el = $('select[name="publish_source_id"]');
+          $el.prop("disabled", false);
+          $el.empty();
+          $el.append("<option></option>");
+          $.each(data, function(item) {
+            $el.append($("<option></option>")
+            .attr("value", data[item]['id']).text(data[item]['title']));
+          });
+        }
+      },
+      error: function(){
+      }
+    });
+  });
+  </script>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= f.label :location_id, class: "form-label" %>
+        <%= select_tag :location_id, options_for_select(Location.order(:title).all.collect { |p| [ p.title, p.id ] }), {include_blank: true, class: "form-control"} %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= f.label :pp, class: "form-label" %>
+        <%= text_field_tag :pp , nil,{class: "form-control"} %>
+      </div>
+    </div>
+  </div>
+
+
+  <%= hidden_field_tag :article_id, article.id%>
+
+  <div class="card-footer text-right">
+    <button type="submit" class="btn btn-primary"><%=t :submit%></button>
+  </div>
+  <% end %>

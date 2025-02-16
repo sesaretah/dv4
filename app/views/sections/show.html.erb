@@ -1,0 +1,75 @@
+<div class='row'>
+  <div class="col-lg-12 order-lg-1">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title"></h3>
+        <div class="card-options">
+          <a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class='row'>
+          <div class='col-md-12 col-lg-12'>
+            <div class="form-group">
+              <%= label :section, :title , class: "form-label", style: 'color: #7795c1;'%>
+              <div class="form-control-plaintext"><%= @section.title %></div>
+            </div>
+            <div class="form-group">
+              <%= label :section, :workflow_id , class: "form-label", style: 'color: #7795c1;'%>
+              <div class="form-control-plaintext"><%= @section.workflow.title %></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 pt-2">
+
+      <% for section_item in SectionItem.all%>
+      <%@sectioning = Sectioning.where(section_id: @section.id, section_item_id: section_item.id).first%>
+      <label class="custom-control custom-checkbox custom-control-inline">
+        <input type="checkbox" class="custom-control-input" id="section_item_<%= section_item.id%>" <% if !@sectioning.blank?%>checked<%end%> value="<%= section_item.id%>">
+        <span class="custom-control-label" style='padding-right: 23px;padding-top: 2px;'><%= section_item.title%></span>
+      </label>
+      <script>
+      $('#section_item_<%= section_item.id%>').change(function() {
+        if($(this).is(":checked")) {
+          $.ajax({
+            url: '/sectionings/remotec/1',
+            type: 'GET',
+            dataType: 'json',
+            data: {
+              section_id: <%= @section.id%>,
+              section_item_id: <%= section_item.id %>
+            },
+            error: function() {
+              $(this).attr("checked", false);
+            },
+            success: function(res) {
+              $(this).attr("checked", true);
+            }
+          });
+        } else {
+          $.ajax({
+            url: '/sectionings/remoted/1',
+            type: 'GET',
+            dataType: 'json',
+            data: {
+              section_id: <%= @section.id%>,
+              section_item_id: <%= section_item.id %>
+            },
+            error: function() {
+              $(this).attr("checked", true);
+            },
+            success: function(res) {
+              $(this).attr("checked", false);
+            }
+          });
+        }
+      });
+      </script>
+      <%end%>
+
+  </div>
+      </div>
+    </div>
+  </div>
+</div>

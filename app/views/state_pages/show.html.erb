@@ -1,0 +1,98 @@
+<% if @new %>
+<div class='card'>
+<%= render partial: "title_form", locals: { article: @article } %>
+</div>
+<%end%>
+
+<% if !@new %>
+<div class="card-header">
+  <h3 class="card-title"><%= @state_page.workflow_state.workflow.title %> > <%= @state_page.workflow_state.title.gsub("_", " ") %></h3>
+</div>
+
+<br />
+  <span id='article_id' style='display:none;'><%= @article.id %></span>
+  <div class='card'>
+    <%= render partial: "articles/descriptor_form", locals: { article: @article, state_page: @state_page } %>
+  </div>
+
+  <div class='card'>
+    <div class='card-body'>
+      <%= render partial: "articles/keywords_form", locals: { article: @article, state_page: @state_page } %>
+    </div>
+  </div>
+
+  <% if @state_page.item_upload %>
+  <div class='card'>
+    <%= render partial: "articles/upload_form", locals: { article: @article } %>
+  </div>
+  <% end %>
+
+  <% if @state_page.item_datings %>
+    <%= render partial: "articles/dates_form", locals: { article: @article } %>
+  <% end %>
+
+  <% if @state_page.item_publications %>
+    <%= render partial: "articles/publishers_form", locals: { article: @article } %>
+  <% end %>
+
+  <% if @state_page.item_typings %>
+  <div class='card'>
+  <div class='card-body'>
+    <%= render partial: "articles/types_form", locals: { article: @article } %>
+  </div>
+   </div>
+  <% end %>
+
+  <% if @state_page.item_speakings %>
+  <div class='card'>
+  <div class='card-body'>
+    <%= render partial: "articles/language_form", locals: { article: @article } %>
+  </div>
+  </div>
+  <% end %>
+
+  <% if @state_page.item_formatings %>
+  <div class='card'>
+  <div class='card-body'>
+    <%= render partial: "articles/formats_form", locals: { article: @article } %>
+  </div>
+   </div>
+  <% end %>
+
+  <% if @state_page.item_contributions %>
+    <%= render partial: "articles/contribution_form", locals: { article: @article } %>
+  <% end %>
+
+  <% if @state_page.item_kinships %>
+    <%= render partial: "articles/relation_type_form", locals: { article: @article } %>
+  <% end %>
+
+  <% if @state_page.item_originatings %>
+    <%= render partial: "articles/sources_form", locals: { article: @article } %>
+  <% end %>
+
+  <% if @state_page.item_areaings %>
+    <%= render partial: "articles/areas_form", locals: { article: @article } %>
+  <% end %>
+  
+  <div class="card">
+    <div class="card-footer text-right">
+      <button type="submit" class="btn btn-primary" id='state-page-submit'><%= t :submit_and_view %></button>
+    </div>
+  </div>
+  <script>
+  $("#state-page-submit").click(function (event) {
+    event.preventDefault();
+    $.ajax({
+        type: "post",
+        dataType: "html",
+        url: '/articles/<%= @article.id %>',
+        data: $("#discriptors").serialize(),
+        success: function (response) {
+          window.location.href = "/articles/<%= @article.id%>";
+    }
+  });
+});
+</script>
+
+<% end %>

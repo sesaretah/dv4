@@ -1,0 +1,921 @@
+fa:
+  date:
+    abbr_day_names:
+    - ی
+    - د
+    - س
+    - چ
+    - پ
+    - ج
+    - ش
+    abbr_month_names:
+    -
+    - ژانویه
+    - فوریه
+    - مارس
+    - آوریل
+    - مه
+    - ژوئن
+    - ژوئیه
+    - اوت
+    - سپتامبر
+    - اکتبر
+    - نوامبر
+    - دسامبر
+    day_names:
+    - یکشنبه
+    - دوشنبه
+    - سه‌شنبه
+    - چهارشنبه
+    - پنج‌شنبه
+    - جمعه
+    - شنبه
+    formats:
+      default: ! '%Y/%m/%d'
+      long: ! '%e %B %Y'
+      short: ! '%m/%d'
+    month_names:
+    -
+    - ژانویه
+    - فوریه
+    - مارس
+    - آوریل
+    - مه
+    - ژوئن
+    - ژوئیه
+    - اوت
+    - سپتامبر
+    - اکتبر
+    - نوامبر
+    - دسامبر
+    order:
+    - :day
+    - :month
+    - :year
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: حدود یک ساعت
+        other: حدود %{count} ساعت
+      about_x_months:
+        one: حدود یک ماه
+        other: حدود %{count} ماه
+      about_x_years:
+        one: حدود یک سال
+        other: حدود %{count} سال
+      almost_x_years:
+        one: حدود یک سال
+        other: حدود %{count} سال
+      half_a_minute: نیم دقیقه
+      less_than_x_minutes:
+        one: کمتر از یک دقیقه
+        other: کمتر از %{count} دقیقه
+      less_than_x_seconds:
+        one: یک ثانیه
+        other: کمتر  از %{count} ثانیه
+      over_x_years:
+        one: بیش از یک سال
+        other: بیش از %{count} سال
+      x_days:
+        one: یک روز
+        other: ! '%{count} روز'
+      x_minutes:
+        one: یک دقیقه
+        other: ! '%{count} دقیقه'
+      x_months:
+        one: یک ماه
+        other: ! '%{count} ماه'
+      x_seconds:
+        one: یک ثانیه
+        other: ! '%{count} ثانیه'
+    prompts:
+      day: روز
+      hour: ساعت
+      minute: دقیقه
+      month: ماه
+      second: ثانیه
+      year: سال
+  errors: &errors
+    format: ! '%{attribute} %{message}'
+    messages:
+      accepted: باید پذیرفته شود
+      blank: نباید خالی باشد
+      confirmation: با تایید نمی‌خواند
+      empty: نمی‌تواند خالی باشد
+      equal_to: باید برابر %{count} باشد
+      even: باید زوج باشد
+      exclusion: رزرو است
+      greater_than: باید بزرگتر از %{count} باشد
+      greater_than_or_equal_to: باید بزرگتر یا برابر %{count} باشد
+      inclusion: در لیست موجود نیست
+      invalid: نامعتبر است
+      less_than: باید کمتر از %{count} باشد
+      less_than_or_equal_to: باید کمتر یا برابر %{count} باشد
+      not_a_number: عدد نیست
+      not_an_integer: عدد صحیح نیست
+      odd: باید فرد باشد
+      record_invalid: رکورد نامعتبر است %{errors}
+      taken: پیشتر گرفته شده
+      too_long: بلند است (حداکثر %{count} کاراکتر)
+      too_short: کوتاه است (حداقل %{count} کاراکتر)
+      wrong_length: نااندازه است (باید %{count} کاراکتر باشد)
+    template:
+      body: ! 'موارد زیر مشکل داشت:'
+      header:
+        one: 1 خطا جلوی ذخیره این %{model} را گرفت
+        other: ! '%{count} خطا جلوی ذخیره این %{model} را گرفت'
+  helpers:
+    select:
+      prompt: لطفا انتخاب کنید
+    submit:
+      create: ! 'ایجاد %{model}'
+      submit: ! 'ذخیره‌ی %{model}'
+      update: ! 'بروز رسانی %{model}'
+  number:
+    currency:
+      format:
+        delimiter: ٬
+        format: ! '%n %u'
+        precision: 0
+        separator: ٫
+        significant: false
+        strip_insignificant_zeros: false
+        unit: ﷼
+    format:
+      delimiter: ٬
+      precision: 2
+      separator: ٫
+      significant: false
+      strip_insignificant_zeros: false
+    human:
+      decimal_units:
+        format: ! '%n %u'
+        units:
+          billion: میلیارد
+          million: میلیون
+          quadrillion: کادریلیون
+          thousand: هزار
+          trillion: تریلیون
+          unit: ''
+      format:
+        delimiter: ''
+        precision: 1
+        significant: true
+        strip_insignificant_zeros: true
+      storage_units:
+        format: ! '%n %u'
+        units:
+          byte:
+            one: بایت
+            other: بایت
+          gb: گیگابایت
+          kb: کیلوبایت
+          mb: مگابایت
+          tb: ترابایت
+    percentage:
+      format:
+        delimiter: ''
+    precision:
+      format:
+        delimiter: ''
+  support:
+    array:
+      last_word_connector: ! ' و '
+      two_words_connector: ! ' و '
+      words_connector: ! '، '
+  time:
+    am: قبل از ظهر
+    formats:
+      default: ! '%A، %e %B %Y، ساعت %H:%M:%S (%Z)'
+      long: ! '%e %B %Y، ساعت %H:%M'
+      short: ! '%e %B، ساعت %H:%M'
+    pm: بعد از ظهر
+  # remove these aliases after 'activemodel' and 'activerecord' namespaces are removed from Rails repository
+  activemodel:
+    errors:
+      <<: *errors
+  activerecord:
+    models:
+        user: 'کاربر'
+    errors:
+      <<: *errors
+    attributes:
+        profile:
+        profile:
+            nickname: "اسم مستعار"
+            name: "نام"
+            surename: "نام خانوادگی"
+            birthdate: 'تاریخ تولد'
+            sex: 'جنسیت'
+            nickname: "اسم مستعار"
+            fathername: 'نام پدر'
+            ssn: 'کد ملی'
+            phone_number:  'شماره تلفن'
+            cellphone_number: 'شماره همراه'
+            official_email: 'ایمیل دانشگاهی'
+            faculty: 'دانشکده'
+            rank: 'مرتبه علمی'
+            digest_email: 'ایمیل آگاهسازی'
+            email: 'ایمیل'
+            user_id: 'کاربر '
+        user:
+            email: 'ایمیل'
+            login: 'نام کاربر'
+            password: 'رمز عبور'
+            password_confirmation: 'تکرار رمز عبور'
+            remember_me: 'مرا به خاطر بسپار'
+            current_password: 'رمز عبور کنونی'
+            new_password: 'رمز عبور جدید '
+        article:
+            title: 'عنوان اصلی'
+            abstract: 'چکیده/خلاصه'
+            content: 'محتوا (متن)'
+            url: 'پیوند(url)'
+            workflow_state_id: 'گام فعلی'
+            slug: 'شناسه یکتا'
+            description: 'توصیف'
+            notes: 'یادداشت'
+            dimensions: 'ابعاد و اندازه'
+            retrieval_number: 'شماره بازیابی'
+            position: 'شماره'
+        tag:
+            title: 'عنوان'
+            tag_type_id: 'نوع موضوع'
+        workflow:
+            title: 'عنوان'
+            description: 'شرح'
+            valid_until: 'تاریخ اعتبار'
+        language:
+            title: 'عنوان'
+            description: 'شرح'
+        article_format:
+            title: 'عنوان'
+            description: 'شرح'
+        title_type:
+            title: 'عنوان'
+            description: 'شرح'
+        article_source:
+            title: 'عنوان'
+            description: 'شرح'
+        article_relation_type:
+            title: 'عنوان'
+            description: 'شرح'
+            reverse_relation_id: 'ارتباط معکوس'
+        article_area:
+            title: 'عنوان'
+            description: 'شرح'
+        article_type:
+            title: 'عنوان'
+            description: 'شرح'
+        article_event:
+            title: 'عنوان'
+            description: 'شرح'
+        role:
+            title: 'عنوان'
+            description: 'شرح'
+            abr: 'مخفف (لاتین)'
+        message:
+            title: 'عنوان'
+            body: 'متن'
+            urgency: 'اولویت '
+        duty:
+            title: 'عنوان'
+            description: 'شرح'
+            abr: 'مخفف (لاتین)'
+        dating:
+            article_event_id: 'نوع تاریخ'
+            event_date: 'تاریخ'
+        contribution:
+            profile_id: 'فرد مرتبط'
+            duty_id: 'سمت  فرد مرتبط'
+            role_id: 'نقش در سند'
+            profile: 'فرد مرتبط'
+            duty: 'سمت  فرد مرتبط'
+            role: 'نقش در سند'
+            profile_group_id: 'گروه افراد'
+            sign: 'نمایش امضا'
+        kinship:
+            article_relation_type_id: 'نوع ارتباط'
+            kin_id: 'سند هدف'
+            kin: 'سند هدف'
+            article_relation_type: 'نوع ارتباط'
+        originating:
+            article_source_id: 'منبع'
+            article_source: 'منبع'
+        areaing:
+            article_area_id: 'حوزه های سازمانی دانشگاه'
+            article_area: 'حوزه های سازمانی دانشگاه'
+        keyword:
+            title: 'عنوان'
+            description: 'شرح'
+        assignment:
+            user_id: 'فرد'
+            role_id: 'نقش'
+            user: 'فرد'
+            role: 'نقش'
+        content_template:
+            content: 'محتوا'
+            title: 'عنوان'
+        note_template:
+            content: 'محتوا'
+            title: 'عنوان'
+        workflow_state:
+            title: 'عنوان'
+            workflow_id: 'گردشکار'
+        word_template:
+            title: 'عنوان'
+            workflow_id: 'گردشکار'
+        access_group:
+            title: 'عنوان'
+        section:
+            title: 'عنوان'
+            workflow_id: 'گردش کار'
+        section_item:
+            title: 'عنوان'
+            description: 'شرح '
+        publisher:
+            title: 'عنوان'
+            description: 'شرح '
+            organization_type: 'نوع سازمان '
+        location:
+            title: 'عنوان'
+            description: 'شرح'
+        involvement:
+            publisher_id: 'نام سازمان'
+        publish_source:
+            title: 'عنوان'
+            description: 'شرح'
+            publisher_id: 'سازمان'
+        profile_group:
+            title: 'عنوان'
+            description: 'شرح'
+            workflow_id: 'گردشکار'
+        profile_grouping:
+            user_id: 'کاربر'
+            profile_id: 'فرد'
+        state_page:
+            item_title: 'عنوان'
+            item_titlings: 'سایر عناوین'
+            item_abstract: 'چکیده'
+            item_url: 'url'
+            item_keywords: 'کلمات کلیدی'
+            item_datings: 'تاریخ ها'
+            item_typings: 'انواع سند'
+            item_speakings: 'زبان ها'
+            item_formatings: 'قالب ها'
+            item_contributions: 'افراد'
+            item_originatings: 'منابع بالادستی'
+            item_kinships: 'اسناد مرتبط'
+            item_content: 'محتوا'
+            item_upload: 'پیوست ها'
+            item_publications: 'نشر'
+            item_areaings: 'حوزه های سازمانی دانشگاه'
+            item_notes: 'یادداشت'
+            item_retrieval_number: 'شماره بازیابی'
+            item_dimensions: 'ابعاد و اندازه'
+            item_position: 'شماره'
+        publication:
+            publisher_id: 'ناشر'
+            publish_source_id: 'منبع'
+            location_id: 'مکان '
+            pp: 'وضعیت نشر'
+        access_control:
+            view_unrelated_articles: 'نمایش اسناد غیر مرتبط'
+            view_article_logs: 'منوی مقایسه در اسناد'
+            view_workflow_transactions: 'منوی تراکنش ها در اسناد'
+            create_workflow: 'ایجاد چرخه کار'
+            alter_article_areas: 'تغییر در جدول پایه حوزه های سازمانی(اداری)'
+            alter_article_events: 'تغییر در جدول پایه انواه تاریخ'
+            alter_article_formats: 'تغییر در جدول پایه قالب اسناد'
+            alter_article_relation_types: 'تغییر در جدول پایه انواع ارتباط اسناد'
+            alter_article_sources: 'تغییر در جدول پایه انواع منابع بالادستی'
+            alter_article_types: 'تغییر در جدول پایه انواع سند'
+            alter_keywords: 'تغییر در جدول پایه کلمات کلیدی'
+            alter_languages: 'تغییر در جدول پایه زبان'
+            alter_profiles: 'تغییر در جدول پایه افراد'
+            alter_roles: 'تغییر در جدول پایه نقش ها'
+            alter_duties: 'تغییر در جدول پایه سمت ها'
+            alter_title_types: 'تغییر در جدول پایه انواع عنوان'
+            alter_content_templates: 'تغییر محتوای پیشفرض'
+            alter_section_items: 'تغییر  عناصر بخش بندی ها'
+            alter_publishers: 'تغییر منتشرکنندگان'
+            alter_locations: 'تغییر جدول مکان ها'
+            alter_publish_sources: 'تغییر جدول منابع'
+            alter_access_groups: 'تغییر گروههای دسترسی'
+            alter_profile_groups: 'تغییر گروههای افراد'
+            edit_workflow: 'ویرایش گردشکار'
+            edit_roles: 'ویرایش نقش ها'
+            alter_assignments: 'تغییر اعطای نقش'
+            edit_assignments: 'اعطای نقش'
+            user_id: 'توسط'
+  will_paginate:
+    page_gap: "&hellip;"
+    previous_label: "قبلی"
+    next_label: "بعدی"
+  involvement_form: 'فرم سازمان های مرتبط'
+  article_involvements: 'سازمان های مرتبط با این سند '
+  browse_articles: 'مرور اسناد'
+  temporal: 'موقت'
+  permanent: 'دائم'
+  reply_all: 'پاسخ همه'
+  reply: 'پاسخ'
+  login: 'ورود'
+  non_cas_login: 'سایر کاربران'
+  university_users: 'کاربران دانشگاه'
+  no_messages: 'در حال حاضر پیامی وجود ندارد'
+  message: 'پیام'
+  retrun: 'بازگشت'
+  send: 'ارسال'
+  cancel: 'انصراف'
+  subject: 'موضوع '
+  recipients: 'دریافت کنندگان'
+  new_message: 'نوشتن پیام جدید'
+  sent: 'پیام های ارسالی'
+  inbox: 'پیام های رسیده'
+  attachment: 'پیوست'
+  wokflow: 'گردش کار'
+  update: 'بروزرسانی'
+  change_password: 'تغییر رمز عبور'
+  leave_blank_if_you_dont_want_to_change_it: ''
+  we_need_your_current_password_to_confirm_your_changes: ''
+  sign_in_or_sign_up: 'ثبت نام/ ورود'
+  Profile: 'افراد'
+  Keyword: 'کلمات کلیدی'
+  search_in_other_tables: 'جستجو در سایر جداول'
+  similar_titles: 'عناوین مشابه'
+  source: 'منبع'
+  location: 'مکان'
+  article_publications_list: 'لیست اطلاعات نشر'
+  article_publications_form: 'فرم اطلاعات نشر'
+  publication: 'نشر '
+  detached: 'قطع اتصال انجام شد '
+  detach_profile: 'قطع اتصال'
+  merge: 'ادغام '
+  profile_1: 'پروفایل اصلی'
+  profile_2: 'پروفایل فرعی'
+  merge_profile: 'ادغام افراد'
+  taggings: 'کلمات کلیدی'
+  publisher: 'منبع'
+  publish_source_form: 'فرم مراجع'
+  publish_sources: 'منابع'
+  location_form: 'فرم مکان ها '
+  locations: 'مکان ها '
+  publishers_form: 'فرم سازمان ها'
+  publishers: 'سازمان ها'
+  sectioned_form: 'فرم مخصوص '
+  section_item_form: 'فرم عناصر بخش بندی'
+  section_items: 'عناصر بخش بندی'
+  more: 'بیشتر'
+  divan: 'سامانه دیوان'
+  copyrights: 'کلیه ی حقوق این سایت متعلق است به'
+  new_section: 'بخش جدید'
+  sections: 'بخش ها'
+  download_word_file: 'دریافت فایل MSWORD'
+  new_word_template: 'قالب Word جدید'
+  word_template: 'قالب های Word '
+  word_templates: 'قالب های Word '
+  access_group_changed: 'گروه دسترسی تغییر کرد '
+  change_access_group: 'تعیین گروه دسترسی'
+  access_group: 'گروه دسترسی'
+  publish: 'انتشار'
+  new_access_group: 'گروه دسترسی جدید'
+  access_groups: 'گروه های دسترسی'
+  publishable: 'قابل انتشار '
+  article_already_exists: 'این سند در گردشکار موجود است'
+  copy_has_been_made: 'کپی استخراج شد'
+  for_workflow: 'برای گردش کار'
+  make_a_copy: 'ایجاد کپی سند '
+  change_workflow: 'تغییر فرآیند '
+  agree: 'تایید'
+  abstention: 'ممتنع'
+  oppose: 'عدم تایید'
+  article_attachment: 'نامشخص'
+  article_citation: 'مستندات'
+  article_documents: 'پیوست ها'
+  start_date: 'تاریخ شروع'
+  end_date: 'تاریخ پایان'
+  artilce_date: 'تاریخ'
+  date_histogram: 'هیستوگرام تاریخ'
+  full_text: 'محتوا (متن)'
+  article_comment: 'نظرات بر اسناد'
+  article_refunded_received: 'دریافت عودت سند'
+  article_refunded: 'عودت سند'
+  article_received: 'دریافت سند '
+  article_sent: 'ارسال سند '
+  nothing_found: 'سندی پیدا نشد.'
+  enter_email: 'ایمیل خود را وارد کنید'
+  comment_author: 'نویسنده نظر'
+  publish_date: 'زمان انتشار'
+  end_states: 'مراحل نهایی'
+  not_end_states: 'در حال کار'
+  reports: 'گزارشات'
+  more_details: 'شرح بیشتر'
+  your_workflows: 'گردش‌کارهای شما'
+  new_content_template: 'محتوای پیشفرض'
+  content_templates: 'محتوای پیشفرض'
+  votable: 'اجبار رای گیری'
+  error: 'خطا '
+  votes: 'رای'
+  your_choice: 'انتخاب شما '
+  this_transition_must_be_done_by_voting: 'انتقال باید توسط رای گیری انجام شود'
+  prohibited_this_assignment_from_being_saved: 'مانع از ثبت این اعطای نقش شد'
+  make_sure_you_check_your_spam_folder: 'درصورت عدم دریافت لطفا پوشه spam را هم چک کنید.'
+  you_will_receive_an_email_shortly: 'به زودی ایمیلی دریافت خواهید کرد.'
+  enter_your_email: 'ایمیل خود را وارد کنید'
+  we_will_send_you_reset_password_instructions: 'روش تغییر رمز را برایتان ارسال می‌کنیم.'
+  forgot_your_password: 'رمز خود را فراموش کرده اید؟ '
+  password_confirmation: 'تکرار رمز '
+  change_your_password: 'تغییر رمز'
+  created_successfully: 'با موفقیت ثبت شد'
+  comments: 'تبادل نظر'
+  notifications: 'آگاهسازی‌ها '
+  in_your_dashboard: 'سند در میز کار شماست '
+  new_access_control: 'کنترل دسترسی'
+  no_new_article_in_your_dashboard: 'فعلا سندی در میز کار شما موجود نیست'
+  transition_date: 'تاریخ  '
+  revision_number: 'شماره بازبینی'
+  transaction_number: 'شماره تراکنش'
+  access_control: 'کنترل دسترسی'
+  allow: 'مجاز'
+  deny: 'غیر مجاز'
+  transaction: 'تراکنش'
+  contributions: 'اشخاص مرتبط'
+  uploads: 'پیوست ها و مستندات '
+  article: 'سند'
+  profile_details: 'جزئیات پروفایل'
+  change_current_role: 'تغییر نقش'
+  my_profile: 'پروفایل من '
+  sign_out: 'خروج'
+  by: 'توسط'
+  progress: 'پیشرفت'
+  title: 'عنوان'
+  article_event: 'نوع تاریخ'
+  event_date: 'تاریخ'
+  other_titles: 'سایر عناوین'
+  submit: 'ثبت'
+  download: 'دانلود فایل'
+  settings: 'تنظیمات'
+  home: 'خانه'
+  search: 'جستجو'
+  new: 'جدید'
+  title: 'عنوان'
+  year: 'سال'
+  profile_already_exists: 'کاربری با این شماره وجود دارد'
+  edit: 'ویرایش'
+  show: 'نمایش'
+  destroy: 'حذف'
+  leave_comment: 'نظر بدهید...'
+  comment_added_successfully: 'نظر با موفقیت ثبت شد'
+  comment_destroyed_successfully: 'نظر حذف شد'
+  profiles: 'افراد'
+  edit_profile: 'ویرایش پروفایل'
+  new_titling_item_added: 'فرم جدید اضافه شد.'
+  please_enter_data_in_this_field: 'لطفا اطلاعات این قسمت را وارد نمایید.'
+  titles: 'عنوان'
+  descriptors: 'چکیده/متن '
+  submit_and_go: 'ثبت و ادامه'
+  keywords: 'کلمات کلیدی'
+  related_dates: 'تاریخ ها، مستندات و پیوستها '
+  article_dates_form:  'فرم ثبت تاریخ'
+  article_dates_list: 'لیست تاریخ‌های سند'
+  back: 'بازگشت'
+  day: 'روز'
+  month: 'ماه'
+  are_you_sure_?: 'آیا مطمئن هستید؟'
+  now_you_can_edit: 'اکنون می توانید ویرایش کنید'
+  updated_successfully: 'با موفقیت بروزرسانی شد'
+  added_successfully: 'با موفقیت ثبت شد'
+  destroyed_successfully: 'حذف شد'
+  other_details: 'سایر جزئیات سند'
+  article_types: 'انواع سند'
+  languages: 'زبان'
+  article_formats: 'قالب اسناد'
+  contributors: 'اشخاص مرتبط'
+  contributor_form: 'فرم اشخاص مرتبط '
+  article_contributions: 'اشخاص مرتبط با این سند'
+  fullname: 'نام'
+  role: 'نقش'
+  duty: 'سمت'
+  relations: 'پیوندها و ربط ها'
+  article_kinships_form: 'فرم ارتباطات اسناد'
+  article_kinships_list: 'لیست ارتباطات این سند '
+  article_relation_type: 'نوع ارتباط'
+  kin: 'سند هدف'
+  article_sources_form: 'فرم منابع بالادستی'
+  article_sources_list: 'لیست منابع بالادستی'
+  article_areas_form: 'فرم حوزه های سازمانی'
+  article_areas_list: 'لیست حوزه های سازمانی'
+  copy_aoi: 'برداشت لینک مستقیم'
+  base_tables: 'جداول پایه'
+  duties: 'سمت ها'
+  roles: 'نقش ها'
+  title_types: 'انواع عنوان'
+  article_areas: 'حوزه های سازمانی دانشگاه'
+  article_events: 'انواع تاریخ'
+  article_relation_types: 'انواع ارتباط اسناد'
+  article_sources: 'انواع منابع بالادستی'
+  new_title_type: 'انواغ عنوان جدید'
+  new_role: 'نقش جدید'
+  new_duty: 'سمت جدید'
+  new_profile: 'اطلاعات فرد'
+  new_language: 'زبان جدید'
+  new_keyword: 'کلمات کلیدی جدید'
+  new_article_type: 'نوع سند جدید'
+  new_article_source: 'منبع جدید'
+  new_article_relation_type: 'نوع ارتباط جدید'
+  new_article_format: 'قالب اسناد جدید'
+  new_article_event: 'نوع تاریخ جدید'
+  new_article_area: 'حوزه های سازمانی جدید'
+  articles: 'اسناد'
+  advanced_search: 'جستجوی پیشرفته'
+  drop_files_here_to_upload: 'برای آپلود فایل را اینجا بیاندازید یا کلیک کنید. '
+  remove_file: 'حذف فایل'
+  attached_file: 'فایلهای پیوست '
+  submit_and_view: 'ثبت و نمایش'
+  help: 'راهنمایی'
+  datings: 'تاریخ‌ها'
+  download_file: 'دانلود'
+  attachments: 'پیوست ها'
+  article_type: 'نوع سند'
+  language: 'زبان سند'
+  article_format: 'قالب سند'
+  article_source: 'منابع بالادستی'
+  article_area: 'حوزه های سازمانی دانشگاه'
+  article_detail: 'شرح سند'
+  filter: 'محدود کن'
+  clear: 'پاک کن'
+  has: 'دارد'
+  has_not: 'ندارد'
+  editable: 'قابلیت ویرایش'
+  refundable: 'قابلیت اعاده'
+  commentable: 'ارائه دیدگاه'
+  start_point: 'نقطه شروع'
+  end_point: 'نقطه پایان'
+  related_role: 'نقش مربوط'
+  workflows: 'گردش‌کارها'
+  is: 'هست'
+  is_not: 'نیست'
+  new_workflow: 'گردش کار'
+  workflow_detail: 'گردش کار '
+  your_workflow_has_cycle: 'گردش کار حاوی چرخه است'
+  new_assignment: 'اعطای نقش'
+  assignments: 'اعطای نقش'
+  step_title: 'نام این مرحله'
+  workflow: 'اقدام/ ارسال'
+  my_current_role: 'نقش فعلی من'
+  role_changed_successfully: 'نقش با موفقیت تغییر کرد'
+  you_have_not_the_right_permission_to_create_article: 'شما نمی توانید سند جدید ایجاد کنید.'
+  article_is_created: 'سند ایجاد شد'
+  article_is_updated: 'اطلاعات سند بروزرسانی شد'
+  without_workflow: 'بدون گردش‌کار '
+  workflow_state: 'مرحله'
+  send_to: 'ارسال به '
+  refund_to: 'اعاده به '
+  send: 'ارسال '
+  refund: 'اعاده'
+  workflow_transitions: 'گردشکار'
+  message_content: 'متن پیام ...'
+  transition: 'انتقال'
+  from: 'از'
+  to: 'به'
+  logs: 'لاگ‌ها'
+  sent_successfully: 'با موفقیت ارسال شد'
+  refunded: 'عودت داده شد'
+  with_message: 'پیام'
+  changes_in_content: 'تغییرات در متن'
+  changes_in_title: 'تغییرات در عنوان'
+  changes_in_abstract: 'تغییرات در چکیده/خلاصه'
+  abstract: 'خلاصه/چکیده'
+  content: 'محتوا'
+  inserted: 'افزوده شده'
+  deleted: 'حذف شده'
+  not_changed: 'بدون تغییر'
+  compare_source: 'مرجع مقایسه'
+  compare_target: 'مقصد مقایسه'
+  compare: 'مقایسه'
+  help: 'راهنما '
+  url: 'پیوند(url)'
+  dashboard: 'میزکار '
+  messages: 'پیام‌ها '
+  previous_workflow_actions: 'اسناد قبلی '
+  came_from: 'رسیده از '
+  last_editor: 'توسط'
+  last_edit: 'آخرین ویرایش'
+  titles_and_workflows: 'عناوین و گردش کار'
+  number_of_states: 'تعداد مراحل'
+  contributed_articles: 'مشارکت در اسناد '
+  password: 'رمز عبور'
+  sign_in: 'ورود '
+  login_to_your_account: 'ورود به سامانه'
+  i_forgot_password: 'رمز خود را فراموش کرده ام'
+  dont_have_account_yet: 'هنوز ثبت نام نکرده اید؟'
+  sign_up: 'ثبت نام'
+  characters_minimum: 'کاراکتر حداقل'
+  enter_email: 'ایمیل خود را وارد کنید'
+  already_have_account: 'قبلا ثبت نام کرده اید؟ '
+  choose_a_file_for_avatar: 'یک عکس انتخاب کنید'
+  crop_photo: 'برش عکس'
+  change_photo: 'تغییر عکس'
+  description: 'شرح'
+  publish_details: 'توضیحات'
+  access_for_others: 'دسترسی برای بقیه'
+  metadata: 'فراداده'
+  all: 'همه'
+  none: 'هیچ کدام'
+  profile_groups: 'گروه افراد'
+  profile_group_form: 'ورود اطلاعات'
+  profile_group: 'گروه افراد'
+  add_profile: 'افزودن فرد'
+  set_password_if_you_want_to_use_mobile_app: 'برای سهولت ورود می توانید در دیوان رمز عبور ثبت کنید'
+  you_are_authenticated_as: 'شما با کد کاربری زیر احراز شدید'
+  please_fill_in_the_following_to_proceed: 'جهت ادامه اطلاعات زیر را کامل کنید'
+  email: 'ایمیل'
+  name: 'نام'
+  surename: 'نام خانوادگی'
+  cas_login: 'احراز هویت دانشگاه'
+  per_page: 'تعداد در صفحه'
+  position: 'شماره'
+  message_is_required: 'پیام اجباری است '
+  merge_article_event: 'ادغام'
+  article_event_1: 'اصلی'
+  article_event_2: 'فرعی'
+  merge_article_area: 'ادغام'
+  article_area_1: 'اصلی'
+  article_area_2: 'فرعی'
+  merge_article_format: 'ادغام'
+  article_format_1: 'اصلی'
+  article_format_2: 'فرعی'
+  merge_article_relation_type: 'ادغام'
+  article_relation_type_1: 'اصلی'
+  article_relation_type_2: 'فرعی'
+  merge_article_source: 'ادغام'
+  article_source_1: 'اصلی'
+  article_source_2: 'فرعی'
+  merge_article_type: 'ادغام'
+  article_type_1: 'اصلی'
+  article_type_2: 'فرعی'
+  merge_duty: 'ادغام'
+  duty_1: 'اصلی'
+  duty_2: 'فرعی'
+  merge_language: 'ادغام'
+  language_1: 'اصلی'
+  language_2: 'فرعی'
+  merge_publisher: 'ادغام'
+  publisher_1: 'اصلی'
+  publisher_2: 'فرعی'
+  merge_publish_source: 'ادغام'
+  publish_source_1: 'اصلی'
+  publish_source_2: 'فرعی'
+  merge_role: 'ادغام'
+  role_1: 'اصلی'
+  role_2: 'فرعی'
+  edit_workflow: 'ویرایش گردشکار'
+  via: 'توسط'
+  new_note_template: 'فرم یادداشت پیش فرض'
+  note_templates: 'یادداشت پیش فرض'
+  speedy_note: 'یادداشت سریع'
+  own_article_traceable: 'پیگیری اسناد خود'
+  other_articles_traceable: 'پیگیری اسناد دیگران'
+  role_accesses: 'دسترسی نقش ها'
+  new_article: 'سند جدید'
+  carriers: 'حامل ها'
+  source_workflow_state: 'گردشکار مبدا'
+  target_workflow_state: 'گردشکار مقصد'
+  majority: 'اکثریت'
+  all_vote: 'همه موافق'
+  creator: 'ایجاد کننده'
+  automatic_transition: 'انتقال اتوماتیک'
+  generate_pdf: 'ایجاد فایل خروجی'
+  generate: 'ایجاد فایل'
+  suggestion: 'پیشنهاد'
+  review: 'بازبینی'
+  decision: 'تصمیم گیری'
+  full: 'کامل'
+  compact: 'فشرده'
+  default_state_page: 'کاربرگه پیشنهادی'
+
+  consensus: 'اجماع (بدون مخالف)'
+  timer: 'زمانبندی (ساعت)'
+  condition_if_voting: 'شروط انتقال (در صورت وجود رای گیری)'
+  voting_condition: 'شرط انتقال'
+  trials: 'دفعات تکرار بررسی'
+  an_article: 'سندی'
+  with_title: 'با عنوان'
+  article_received_notification: 'در میزکار شما قرار گرفت'
+  article_sent_notification: 'از میزکار شما خارج شد'
+  via: 'توسط'
+  new_article_sent: 'ارسال سند'
+  new_article_received: 'دریافت سند'
+  view: 'نمایش'
+  email_footer: ''
+  email_thanks: 'باتشکر'
+  notification_settings: 'تنظیمات آگاهسازی'
+  hello: 'با سلام'
+  company_details: 'دانشگاه تهران'
+  unsbscribe_notice: 'جهت عدم دریافت این آگاهسازی'
+  unsbscribe: 'کلیک کنید'
+  carry: 'حمل'
+  publish_related_articles: 'انتشار اسناد مرتبط'
+  notification: 'اطلاع رسانی'
+  new_article_published: "انتشار سند"
+  article_published_notification: "منتشر شد"
+  choose_a_file_for_signature: 'انتخاب فایل امضا'
+  summable: 'پرینت در اسناد بالا دستی'
+  printable: 'در پرینت باشد'
+  only_index: 'فقط برای نمایه سازی'
+  attachment_title: 'عنوان'
+  attachment_content: 'شرح'
+  new_upload: 'فرم آپلود'
+  is_published: 'منتشر شد'
+  new_article_published: 'اطلاع رسانی ابلاغ'
+  state_pages: 'کاربرگه ها'
+  state_page: 'کاربرگه'
+  archive: 'بایگانی شود'
+  unarchive: 'از بایگانی خارج شود'
+  unarchived: 'بایگانی نشده'
+  archived: 'بایگانی شده'
+  new_state_page: 'کاربرگه ها'
+  mirorrs: 'آینه'
+  sign: 'نمایش امضا'
+  notifiable: 'اطلاع رسانی اجباری'
+  non_wildcard: 'جستجوی دقیق'
+  publish_for: 'انتشار برای ...'
+  notification_email: 'اطلاع رسانی با ایمیل'
+  notification_automation: 'ارسال به اتوماسیون'
+  publish_for_others: 'انتشار برای سایر افراد'
+  detail_all: ''
+  detail_metadata: ''
+  detail_none: ''
+  pdf_being_genereted: 'فایل در حال ایجاد است...'
+  publish_added: 'انتشار ثبت شد'
+  asc: 'نزولی'
+  desc: 'صعودی'
+  coming: 'ورود به مرحله'
+  position: 'شماره'
+  position_reverse: 'شماره (نزولی)'
+  sort: 'مرتب سازی'
+  auth_login: 'ورود OAuth'
+  full_edit: 'ویرایش کامل'
+  my_articles: 'اسناد من'
+  all_articles: 'همه اسناد'
+  related_articles: 'اسناد مرتبط'
+  date_start: 'تاریخ شروع'
+  date_end: 'تاریخ پایان'
+  filter_date: 'فیلتر بر اساس تاریخ'
+  selected_records: 'رکوردهای انتخاب شده'
+  devise:
+    confirmations:
+      confirmed: حسابتان با موفقیت تایید شد. هم اکنون وارد شدید.
+      send_instructions: ظرف چند دقیقه آینده ایمیلی حاوی راهنمای تایید حسابتان دریافت خواهید کرد.
+      send_paranoid_instructions: اگر ایمیل شما قبلا در سیستم ثبت شده باشد، تا چند دقیقه‌ی دیگر یک ایمیل حاوی توضیحات چگونگی فعال‌سازی حساب‌تان دریافت می‌کنید.
+    failure:
+      already_authenticated: وارد سیستم هستید.
+      inactive: حساب شما هنوز فعال نشده است.
+      invalid: ایمیل یا رمز عبور غیر معتبر.
+      last_attempt: شما تنها یک فرصت دیگر دارید قبل از این‎که حسابتان غیرفعال شود.
+      locked: حسابتان قفل شده است.
+      not_found_in_database: ایمیل یا رمزعبور نامعتبر.
+      timeout: نشست شما منقضی شده است. برای ادامه دوباره وارد شوید.
+      unauthenticated: پیش از ادامه باید وارد شوید یا ثبت نام کنید.
+      unconfirmed: باید حسابتان را قبل از ادامه تایید کنید.
+    mailer:
+      confirmation_instructions:
+        subject: راهنمای تایید
+      reset_password_instructions:
+        subject: راهنمای بازنشانی رمز عبور
+      unlock_instructions:
+        subject: راهنمای باز کردن
+    omniauth_callbacks:
+      failure: امکان استفاده از مجوز %{kind} نبود زیرا "%{reason}".
+      success: با موفقیت مجوز استفاده از  %{kind} دریافت شد.
+    passwords:
+      no_token: شما نمی‌توانید بدون استفاده از یک لینک بازنشانی رمز به این صفحه دسترسی پیدا کنید. اگر از طریق یک ایمیل بازنشانی رمز عبور به این صفحه رسیده‌اید، مطمئن شوید که از کل URL فرستاده شده استفاده کرده‌اید.
+      send_instructions: ظرف چند دقیقه آینده ایمیلی حاوی راهنمای بازگرداندن رمز عبورتان دریافت خواهید کرد.
+      send_paranoid_instructions: اگر ایمیل شما قبلا در سیستم ثبت شده باشد، تا چند دقیقه‌ی دیگر یک لینک بازنشانی رمز عبور دریافت می‌کنید.
+      updated: رمز عبورتان با موفقیت تغییر کرد. اکنون وارد شدید.
+      updated_not_active: رمز عبور با موفقیت تغییر یافت.
+    registrations:
+      destroyed: بدرود! حسابتان لغو شد. به امید دیدار دوباره.
+      signed_up: خوش آمدید! با موفقیت ثبت نام کردید.
+      signed_up_but_inactive: شما با موفقیت ثبت نام شده اید؛ ولی هنوز نمی‌توانید وارد شوید چون حساب‌تان هنوز فعال نشده.
+      signed_up_but_locked: شما با موفقیت ثبت نام شده اید؛ ولی هنوز نمی‌توانید وارد شوید چون حساب‌تان قفل شده.
+      signed_up_but_unconfirmed: یک ایمیل حاوی لینک تایید حساب برای شما فرستاده شده. لطفا برای فعال کردن حساب‌تان آن لینک را باز کنید.
+      update_needs_confirmation: حساب شما با موفقیت به روز شد، اما شما باید ایمیل جدیدتان را را تایید کنید. لطفا ایمیل‌تان را چک کنید و روی لینک تایید حساب کاربری کلیک کنید تا ایمیل جدیدتان تایید شود.
+      updated: به روز رسانی حسابتان با موفقیت انجام شد.
+    sessions:
+      signed_in: 'خوش آمدید'
+      signed_out: خروج موفق.
+    unlocks:
+      send_instructions: ایمیلی حاوی راهنمای باز کردن حسابتان در چند دقیقه آینده به شما ارسال خواهد شد.
+      send_paranoid_instructions: اگر حساب شما وجود داشته باشد، تا چند دقیقه‌ی دیگر یک ایمیل حاوی توضیحات نحوه‌ی باز کردن قفل حساب‌تان برای شما ارسال می‌شود.
+      unlocked: حسابتان با موفقیت باز شد. اکنون وارد شدید.
+  errors:
+    messages:
+      already_confirmed: قبلا تایید شده است
+      confirmation_period_expired: باید در مدت %{period} تایید می‌شد، لطفا یکی دیگر درخواست نمایید
+      expired: منقضی شده. لطفا یکی دیگر درخواست کنید.
+      not_found: یافت نشد
+      not_locked: قفل نشده است
+      not_saved:
+        one: '۱ خطا جلوی ذخیره %{resource} را گرفت:'
+        other: '%{count} خطا جلوی ذخیره این %{resource} را گرفت:'

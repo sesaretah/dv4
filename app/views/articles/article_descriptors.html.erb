@@ -1,0 +1,14 @@
+<%= render partial: 'articles/progress_bar', locals: {article: @article, active: ['titles', 'descriptors']}%>
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title"></h3>
+  </div>
+
+  <%= render partial: 'articles/descriptor_form', locals: {article: @article}%>
+  <%= render partial: 'articles/keywords_form', locals: {article: @article}%>
+</div>
+<div class="card-footer text-right">
+  <a href='/articles/<%= @article.id%>/edit' class="btn btn-lime"><%=t :back%></a>
+  <a href='/articles/article_related_dates/<%= @article.id%>' class="btn btn-primary"><%=t :submit_and_go%></a>
+</div>
+</div>

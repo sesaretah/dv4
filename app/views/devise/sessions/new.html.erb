@@ -1,0 +1,43 @@
+<div class="row">
+  <div class="col col-login mx-auto mt-4">
+    <% if flash[:alert] %>
+    <div class="alert alert-warning" role="alert">
+      <i class="fe fe-alert-triangle" style="vertical-align:-3px;"></i> <%= flash[:alert] %>
+    </div>
+    <% end %>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name),html:{ class: "card"} ) do |f| %>
+
+    <div class="card-body p-6">
+      <div class="d-flex mb-6 mr-auto ml-auto">
+        <img src="/assets/logo.png" style="height: 5rem !important;" alt="">
+      </div>
+      <div class="card-title"><%=t :login%> <%=t :university_users%></div>
+        <a href='https://sso1.ut.ac.ir/ApiContainer.SSO.RCL1/connect/authorize?response_type=code&client_id=divanSSO-Bmmkf2wpdOMDqY_GFq_ol5e9gGkMpr7q30.apigateway.ut.ac.ir&redirect_uri=https://divan.ut.ac.ir/users/oa&scope=openid&state=95adbf2e1fa165f83ca1db22' class="btn btn-green btn-block"><%=t :cas_login%></a>
+       <hr />
+       <div class="card-title"><%=t :non_cas_login%></div>
+      <div class="form-group">
+        <%= f.label :email, class: "form-label" %>
+        <%= f.text_field :email , autocomplete: 'off' ,class: "form-control", 'aria-describedby' => "emailHelp",  'placeholder' => "#{t(:enter_email)}"%>
+      </div>
+      <div class="form-group">
+        <label class="form-label">
+          <%=t :password%>
+          <%=link_to t(:i_forgot_password), '/users/password/new', class:"float-right small text-green"%>
+        </label>
+        <%= f.password_field :password, autocomplete: "current-password",  class:"form-control" %>
+      </div>
+      <div class="form-group">
+        <label class="custom-control custom-checkbox">
+          <%= f.check_box :remember_me,  class: "custom-control-input" %>
+          <%= f.label :remember_me,  class:"custom-control-label", style: 'padding-right: 20px;' %>
+        </label>
+      </div>
+      <div class="form-footer mb-3">
+        <button type="submit" class="btn btn-blue btn-block"><%=t :sign_in%></button>
+      </div>
+    <%end%>
+   
+      </div>
+
+  </div>
+</div>

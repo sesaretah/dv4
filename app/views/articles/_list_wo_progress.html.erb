@@ -1,0 +1,168 @@
+<div class='table-responsive'>
+  <table class="table table-hover table-outline table-vcenter text-nowrap"  id='article-list'>
+    <thead>
+      <tr class='fs-10'>
+        <th><input type="checkbox" id="checkAll"></th>
+        <th class="text-center w-1" style="padding: 0.5rem;">
+        <%= link_to "/home?pp=" + params[:pp].to_s + "&sort=coming ASC" do %>
+        <i class="fa fa-arrow-down" aria-hidden="true"></i>
+        <% end %>
+        <i class="fe fe-command" style="vertical-align: -4px;"></i>
+        <%= link_to "/home?pp=" + params[:pp].to_s + "&sort=coming DESC" do %>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+        <% end %>
+        </th>
+
+        <th>
+        <%= link_to "/home?pp=" + params[:pp].to_s + "&sort=title ASC" do %>
+        <i class="fa fa-arrow-down" aria-hidden="true"></i>
+        <% end %>
+        <%= t :title %>
+        <%= link_to "/home?pp=" + params[:pp].to_s + "&sort=title DESC" do %>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+        <% end %>
+        </th>
+        <th><i class="fa fa-inbox" aria-hidden="true"></i></th>
+        <th><%= t :workflow_state %></th>
+        <th><%= t :creator %> / <%= t :came_from %></th>
+        
+        <th>
+        <%= link_to "/home?pp=" + params[:pp].to_s + "&sort=-position DESC" do %>
+        <i class="fa fa-arrow-down" aria-hidden="true"></i>
+        <% end %>
+        <%= t :position %>
+        <%= link_to "/home?pp=" + params[:pp].to_s + "&sort=position DESC" do %>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+        <% end %>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+    <% arr = [] %>
+    <% for article in articles %>
+     <% arr << article.id %>
+    <% end %>
+      <% for article in articles %>
+      <% access_groupings = AccessGrouping.where(article_id: article.id) %>
+
+      <tr <% if access_groupings.length > 0 %> class='bg-grass'<% end %> >
+        <td>
+          <input type="checkbox" class="transfer" name="transfer-<%=article.id%>" id="transfer-<%=article.id%>" value="<%=article.id%>">
+          <script>
+            $("#transfer-<%=article.id%>").on("change", function(){
+              if ($(this).is(':checked')) {
+                  var val = $("#selected_articles").val();
+                  $("#selected_articles").val(val+",<%=article.id%>")
+                } else  {
+                  var val = $("#selected_articles").val();
+                  val = val.replace("<%=article.id%>", "")
+                  $("#selected_articles").val(val)
+                };
+              console.log($("#selected_articles").val())
+            });
+          </script>
+        </td>
+        <td class="text-center <% if article.archived %> bg-beige <% end %>" >
+          <div class="item-action dropdown">
+            <a href="javascript:void(0)" data-toggle="dropdown" class="icon"><i class="fe fe-more-vertical"></i></a>
+            <div class="dropdown-menu dropdown-menu-right">
+              <a href="/articles/<%= article.id %>" class="dropdown-item"><i class="dropdown-icon fe fe-play"></i><%= t :show %> </a>
+              <% if article_owner(article, current_user) %>
+                <% state_page = StatePage.where(workflow_state_id: article.workflow_state_id)&.first %>
+                <% if !state_page.blank? %>
+                  <a href="/p/<%= state_page.uuid %>?edit=true&article_id=<%=article.id%>" class="dropdown-item" style="background-color: #7bd235; color: white;"><i class="dropdown-icon fe fe-edit-2" style="color: white;"></i> <%= t :edit %></a>
+                <%end%>
+                <a href="/articles/<%= article.id %>/edit" class="dropdown-item"><i class="dropdown-icon fe fe-edit-2"></i> <%= t :full_edit %> </a>
+              <% end %>
+
+              <% if article_owner(article, current_user, 'destroy') %>
+                <%= link_to article, method: :delete, class: "dropdown-item", data: { confirm: "Are you sure?" } do %>
+                <i class="dropdown-icon fe fe-trash"></i> <%= t :destroy %>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </td>
+
+
+        <td>
+          <div class='small fw-800' data-toggle="tooltip" data-placement="top" title="<%= article.title %>"><%= link_to truncate(article.title, length: 40), "/articles/#{article.id}?page=#{params[:page]}" %></div>
+          <div class="small text-muted">
+            <% if !article.titlings.first.blank? %>
+              <%= truncate(article.titlings.first.content, length: 45) %>
+            <% end %>
+          </div>
+        </td>
+        <td>
+          <% if article.workflow_state.is_votable %>
+          <% vote = Vote.is_voted(current_user, article) %>
+          <% if !vote.blank? %>
+          <%= raw vote.icon %>
+          <% end %>
+          <% end %>
+        </td>
+        <td>
+          <% if article.workflow_state %>
+          <div class="small text-muted">
+            <%= truncate(article.workflow_state.workflow.title, length: 30) %>
+          </div>
+          <div style="font-size:smaller;">
+            <%= truncate(article.workflow_state.title, length: 30) %>
+          </div>
+          <% else %>
+          <div class="small text-muted"><i class="fe fe-alert-triangle" style="vertical-align:-3px;"></i> <%= t :without_workflow %></div>
+          <% end %>
+        </td>
+        <td>
+            <% creator = User.find_by_id(article.user_id) %>
+            <% if !creator.blank? && !creator.profile.blank?%>
+              <%= raw creator.profile.profile_tag %>
+            <% end %>
+          <br />
+          <% @previous_workflow_transition = WorkflowTransition.where(workflow_id: article.workflow_state.workflow.id, to_state_id: article.workflow_state_id, article_id: article.id).last %>
+          <% if !@previous_workflow_transition.blank? %>
+            <% @user = User.find_by_id(@previous_workflow_transition.user_id) %>
+            <% if !@user.blank? %>
+              <%= raw @user.profile.profile_tag %>
+            <% end %>
+          <% end %>
+        </td>
+
+        <td>
+        <% index = arr.index(article.id) %>
+        <% if index > 0 %>
+        <% previous = arr[index - 1] %>
+        <% end %>
+        <% if index != (arr.length - 1) %>
+        <% nex = arr[index + 1] %>
+        <% end %>
+        <% if !previous.blank? %>
+        <%= link_to "/home/swap?source=#{article.id}&target=#{previous}&move=up" do %>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+        <% end %>
+        <% end %>
+         <%= editable article, :position %>
+        <% if !nex.blank? && !article.position.blank? %>
+        <%= link_to "/home/swap?source=#{article.id}&target=#{nex}&move=down" do %>
+        <i class="fa fa-arrow-down" aria-hidden="true"></i>
+        <% end %>
+        <% end %>
+        </td>
+
+      </tr>
+     
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<% if defined?(articles.total_pages) %>
+<hr class="mb-0 mt-2"/>
+<div class="digg_pagination  mb-2 mt-2 mr-auto ml-auto">
+  <%= will_paginate articles, :container => false%>
+</div>
+<% end %>
+<script>
+ $('#checkAll').click(function () {    
+  $('*[class^="transfer"]').not(this).prop('checked', this.checked).trigger('change');
+ });
+</script>

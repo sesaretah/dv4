@@ -1,0 +1,17 @@
+<%= render partial: 'articles/progress_bar', locals: {article: @article, active: ['titles', 'descriptors', 'related_dates', 'other_details', 'contributors']}%>
+
+  <%= render partial: 'articles/contribution_form', locals: {article: @article}%>
+
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title"><%=t :help%></h3>
+  </div>
+  <div class="card-body">
+
+  </div>
+
+  <div class="card-footer text-right">
+    <a href='/articles/article_descriptors/<%= @article.id%>' class="btn btn-lime"><%=t :back%></a>
+    <a href='/articles/article_relations/<%= @article.id%>' class="btn btn-primary"><%=t :submit_and_go%></a>
+  </div>
+</div>

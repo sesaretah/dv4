@@ -1,0 +1,19 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  username: pgloader
+  password: password
+  host: localhost
+
+development:
+  <<: *default
+  database: dv_dev
+
+test:
+  <<: *default
+  database: dv4_development_test
+
+production:
+  <<: *default
+  database: dv4_development_production

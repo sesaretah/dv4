@@ -1,0 +1,151 @@
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <img id="target" for="" src=""/>
+        <div class="row">
+          <div class="col-md-8">
+            <div class="form-group">
+              <label class="form-label"></label>
+              <%= select_tag :attachment_type, options_for_select(attachment_types), { class: "form-control transport" } %>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="form-label"></label>
+              <label class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" name="upload[summable]" class="custom-control-input" id="upload_summable" >
+                <span class="custom-control-label" style='padding-right: 23px;padding-top: 2px;'><%= t :summable %></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="form-label"></label>
+              <label class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" name="upload[printable]" class="custom-control-input" id="upload_printable" >
+                <span class="custom-control-label" style='padding-right: 23px;padding-top: 2px;'><%= t :printable %></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="form-label"></label>
+              <label class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" name="upload[only_index]" class="custom-control-input" id="upload_only_index" >
+                <span class="custom-control-label" style='padding-right: 23px;padding-top: 2px;'><%= t :only_index %></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="form-label"><%= t :attachment_title %></label>
+              <%= text_field_tag :attachment_title, nil, class: "form-control" %>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="form-label"><%= t :attachment_content %></label>
+              <%= text_area_tag :attachment_content, nil, class: "form-control" %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" onclick="send()"><%= t :submit %></button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+function send(){
+  $.ajax({
+    type: "PATCH",
+    dataType: 'JSON',
+    url: '/uploads/'+ $('#target').attr('for'),
+    data: {
+      authenticity_token: window._token,
+      'upload[attachment_type]': $('#attachment_type').val(),
+      'upload[title]': $('#attachment_title').val(),
+      'upload[detail]': $('#attachment_content').val(),
+      'upload[summable]': $('#upload_summable').is(':checked'),
+      'upload[printable]': $('#upload_printable').is(':checked'),
+      'upload[only_index]': $('#upload_only_index').is(':checked'),
+    },
+    success: function(){
+      $('#target').attr('src', '');
+      $('#myModal').modal('toggle');
+    }
+  });
+}
+</script>
+<%= form_for(Upload.new, html: { class: "dropzone" }) do |f| %>
+<%= f.hidden_field :uploadable_type, value: class_name %>
+<%= f.hidden_field :uploadable_id, value: id %>
+<%= f.hidden_field :attachment_type, value: type %>
+<%= hidden_field_tag :file_type, "picture" %>
+<div class="fallback">
+  <%= f.file_field :picture %><br>
+  <%= f.hidden_field :uploadable_type, value: class_name %>
+  <%= f.hidden_field :uploadable_id, value: id %>
+  <%= f.hidden_field :attachment_type, value: type %>
+  <%= f.submit "Upload" %>
+</div>
+<% end %>
+<script>
+Dropzone.autoDiscover = false;
+$("#new_upload").dropzone({
+  dictDefaultMessage : "<%= t :drop_files_here_to_upload %>",
+  maxFilesize: 500,
+  dictRemoveFile : "<%= t :remove_file %>",
+  acceptedFiles : '.docx,.doc,.pdf,.txt, .png,.jpg,.jpeg, .ppt, .pptx, .xls, .xlsx, .tiff, .tif, .gif',
+  addRemoveLinks: true,
+  removedfile: function(file) {
+    jQuery.get( "/uploads/remoted/" + file.id, function( data ) {
+      console.log(data);
+    });
+    var _ref;
+    return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+  },
+  init: function () {
+    this.on("success", function(file, responseText) {
+      $('#myModal').modal('show');
+      $('#target').attr('for', responseText.id);
+      file.id = responseText.id;
+    });
+
+    <% Upload.where("uploadable_type = ? AND uploadable_id = ? AND attachment_type IN (?)", class_name, id, ["article_citation", "article_attachment", "article_documents"]).each do |upload| %>
+      var mockFile = { 
+        name: "<%= upload.attachment.filename.to_s if upload.attachment.attached? %>", 
+        size: <%= upload.attachment.blob.byte_size if upload.attachment.attached? %>, 
+        url: "<%= url_for(upload.attachment) if upload.attachment.attached? %>", 
+        id: <%= upload.id %> 
+      };
+      this.options.addedfile.call(this, mockFile);
+      this.options.thumbnail.call(this, mockFile, "<%= url_for(upload.attachment.variant(resize: '600x600')) if upload.attachment.variable? %>");
+      mockFile.previewElement.classList.add('dz-success');
+      mockFile.previewElement.classList.add('dz-complete');
+    <% end %>
+  }
+});
+</script>

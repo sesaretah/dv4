@@ -1,0 +1,79 @@
+<%= form_for(contribution, remote: true, html: { id: "article_contributions_form" }) do |f| %>
+<% if contribution.errors.any? %>
+<div id="error_explanation">
+  <h2><%= pluralize(contribution.errors.count, "error") %> prohibited this contribution from being saved:</h2>
+
+  <ul>
+    <% contribution.errors.full_messages.each do |message| %>
+    <li><%= message %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+
+  <%= f.hidden_field :article_id, value: article.id %>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+          <%= f.label :profile_id, class: "form-label" %>
+        <%= text_field_tag :article_profile, nil, class: "form-control" %>
+        <%= f.hidden_field :profile_id, value: "" %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= f.label :role_id, class: "form-label" %>
+        <%= text_field_tag :article_role, nil, class: "form-control" %>
+        <%= f.hidden_field :role_id, value: "" %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= f.label :duty_id, class: "form-label" %>
+        <%= text_field_tag :article_duty, nil, class: "form-control" %>
+        <%= f.hidden_field :duty_id, value: "" %>
+      </div>
+    </div>
+  </div>
+
+
+    <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+          <label class="custom-control custom-checkbox custom-control-inline">
+          <%= f.check_box :sign, class: "custom-control-input" %>
+    <span class="custom-control-label" style='padding-right: 23px;padding-top: 2px;'><%= t :sign %></span>
+  </label>
+
+      </div>
+    </div>
+  </div>
+   
+
+  <div class="row">
+  <div class="col-md-6">
+    <div class="form-group">
+        <%= f.label :profile_group_id, class: "form-label" %>
+        <% workflow = article.workflow_state.workflow%>
+        <%= select_tag :profile_group_id, options_for_select(ProfileGroup.where(workflow_id: workflow.id).collect { |p| [p.title, p.id] }), { include_blank: true, class: "form-control" } %>
+    </div>
+  </div>
+</div>
+
+  <script>
+$(document).on("focus", "#article_role", fireAutoCompleteEvent());
+$(document).on("focus", "#article_profile", fireAutoCompleteEvent());
+$(document).on("focus", "#article_duty", fireAutoCompleteEvent());
+
+</script>
+
+  <div class="card-footer text-right">
+    <button type="submit" class="btn btn-primary"><%= t :submit %></button>
+  </div>
+
+  
+  <% end %>

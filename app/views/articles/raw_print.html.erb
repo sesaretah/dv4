@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
+  <title></title>
+  <style>
+    * {
+      font-size: 16px  !important;
+      line-height: 2 !important;
+    }
+    body {
+      background-color: #fff;
+      font-size: 16px;
+    }
+
+    p {
+      text-align: justify;
+    }
+
+    hr.new2 {
+      border-top: 0px dashed gray;
+    }
+
+    .row {
+      page-break-inside:avoid
+    }
+    @media print
+    {
+      div {page-break-inside:avoid}
+      table {page-break-inside:avoid}
+      tr    { page-break-inside:avoid; page-break-after:avoid }
+    }
+
+    ol {
+        padding-right: 1.5em !important;
+        padding-left: 1em !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="page-main">
+    <div class="container" style='padding: 1px;'>
+      <div class="row mb-4 mt-4">
+          <div class="col-12 col-md-12 col-sm-12" style='min-height: 110px;'>
+              <span style='float: right;margin-left: 15px;'>
+              <img src='/assets/ut.png' width='80px;'>
+              </span>
+          <div style='width:100%; text-align: center; font-weight: 600;width: 960px; padding-left:50px;'>
+            <%= @article.title %><br />
+            <% @article.titlings.group_by(&:title_type_id).each do |k, v| %>
+            <% for t in v %>
+            <span><%= sanitize t.content %></span><br />
+            <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-4" style='display:block;'>
+        <div class="col-12">
+        
+        <%
+          doc = Nokogiri::HTML::DocumentFragment.parse(@article.content)
+           
+          doc.css('table').each do |table|
+            if table['style']
+              # Append 'width: 100%' if style attribute already exists
+              table['style'] += '; width: 95% !important;'
+            else
+              # Set the style attribute to 'width: 100%' if it doesn't exist
+              table['style'] = 'width: 95%;'
+            end
+          end
+
+        %>
+          <%= raw doc.to_html %>
+        </div>
+      </div>
+      <% @article_count = @article.kinships.count %>
+      <% @article.kinships.group_by(&:article_relation_type_id).each do |k, v| %>
+      <% @kins = [] %>
+      <% for kinship in v.sort_by!(&:rank) %>
+      <% @kins << kinship.kin %>
+      <% end %>
+      <% for kin in @kins %>
+      <div class="row text-center mb-2">
+        <div class="col-11 col-md-11 col-sm-11" <% if @article_count < 8 && @article_count > 4 %>style='min-height: 80px;'<% else %>style='min-height: 120px;'<% end %>>
+          <% qrcode = RQRCode::QRCode.new(Rails.application.routes.default_url_options[:host] + "/" + kin.slug) %>
+          <span style='float: right;margin-left: 15px;'>
+          <% svg = svg = qrcode.as_svg(
+               offset: 0,
+               color: "000",
+               shape_rendering: "crispEdges",
+               module_size: 2,
+               standalone: true,
+             ) %>
+          <%= svg.html_safe %><br />
+          <a href='/<%= kin.slug %>' style='font-family: tahoma;'><%= kin.slug %></a>
+          </span>
+          <div style='padding-right: 80px;'>
+          <%= raw kin.content %>
+          </div>
+        </div>
+      </div>
+      <% end %>
+      <% end %>
+
+      <% i = 1 %>
+      <div class="row text-center">
+        <div class="col-12">
+          <% if @article_count < 8 && @article_count > 4 %>
+            <% @sign_width = "130px" %>
+          <% else %>
+            <% @sign_width = "155px" %>
+          <% end %>
+          <% for contribution in @article.contributions.drop(1) %>
+          <% if !contribution.profile.signature.blank? && contribution.sign %>
+          <%= image_tag contribution.profile.signature(:medium), width: @sign_width %>
+          <% if i % 5 == 0 %>
+        </div></div>
+        <div class="row text-center">
+          <div class="col-12">
+            <% end %>
+            <% i += 1 %>
+            <% end %>
+            <% end %>
+          </div>
+        </div>
+        <div class="row text-center">
+         <div class="col-12">
+          <%= @article.publish_details %>
+          </div>
+        </div>
+
+        <div class="row text-center">
+         <div class="col-12">
+          <% c = @article.contributions.first %>
+          <% if !c.blank? && c.sign && !c.profile.blank? && !c.profile.signature.blank? %>
+            <%= image_tag c.profile.signature(:medium), width: @sign_width %>
+          <% end %>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,308 @@
+<div class="row row-cards">
+  <div class="col-lg-10">
+
+    <ol class="breadcrumb" aria-label="breadcrumbs">
+        <li class="breadcrumb-item"><%= t :dashboard %></li>
+        <% if !@home_setting.blank? && !@home_setting.workflow.blank? && @home_setting.workflow != -1 %>
+        <% workflow = Workflow.find(@home_setting.workflow)%>
+          <li class="breadcrumb-item"><a href="/home?workflow_state=-1"><%= truncate(workflow.title, length: 40)rescue ''%></a></li>
+        <% end %>
+        <% if !@home_setting.blank? && !@home_setting.workflow_state.blank? && @home_setting.workflow_state != -1%>
+        <% workflow_state = WorkflowState.find(@home_setting.workflow_state)%>
+          <li class="breadcrumb-item"><%= truncate(workflow_state.title, length: 30) rescue ''%></li>
+        <% end %>
+    </ol>
+
+  </div>
+  <div class="col-lg-2">
+  <% @selected_ws = WorkflowState.where(id: @home_setting.workflow_state).first%>
+  <% if !@selected_ws.blank? && @selected_ws.start_point == 2%>
+  <% @state_page = StatePage.where(workflow_state_id: @selected_ws.id).first %>
+    <% if !@state_page.blank? %>
+      <%= link_to "/p/#{@state_page.uuid}", class: "btn btn-lime", style:"height: 46px;padding-top: 10px;margin-bottom: 15px;" do %>
+       <i class="fe fe-plus" style="vertical-align:-3px;"></i> <%= t :new_article %>
+      <% end %>
+    <%else%>
+      <%= link_to "/articles/new?workflow_state_id=#{@home_setting.workflow_state}", class: "btn btn-lime", style:"height: 46px;padding-top: 10px;margin-bottom: 15px;" do %>
+        <i class="fe fe-plus" style="vertical-align:-3px;"></i> <%= t :new_article %>
+      <% end %>
+    <%end%>
+  <%end%>
+  </div>
+</div>
+
+<div class="row row-cards">
+  <div class="col-lg-3">
+
+<div id="accordion">
+   <% Workflow.user_available_workflows(current_user).each do |workflow| %>
+  <div class="card mb-0 p-0" style="border-bottom:none;">
+    <div class="card-header p-0" style="min-height: 0rem;" id="heading<%= workflow.id%>">
+    <% current_workflow_id = WorkflowState.find(@home_setting.workflow_state).workflow.id rescue nil%>
+      <h5 class="mb-0">
+        <button class="btn btn-link <% if current_workflow_id != workflow.id %>collapsed<%end%>" data-toggle="collapse" data-target="#collapse<%= workflow.id%>" aria-expanded="<% if current_workflow_id == workflow.id %>true<%else%>false<%end%>" aria-controls="collapse<%= workflow.id%>" style="font-size: 0.875rem;font-weight: 500;">
+          <%= truncate(workflow.title, length: 30)%>
+        </button>
+      </h5>
+    </div>
+      <div id="collapse<%= workflow.id%>" class="collapse <% if current_workflow_id == workflow.id %>show<%end%>" aria-labelledby="heading<%= workflow.id%>" data-parent="#accordion">
+        <div class="card-body">
+          <% role_ids = current_user.roles.pluck(:id) %>
+          <% WorkflowState.where("role_id in (?) and workflow_id = ? and deleted is null", role_ids, workflow).order('title desc').each do |workflow_state| %>
+            <%= link_to "/home?workflow_state=#{workflow_state.id}", class: "dropdown-item pd-compact" do %>
+              <% if @home_setting.workflow_state == workflow_state.id %>
+                <i class="fe fe-check" style="vertical-align:-3px;"></i>
+              <% end %>
+              <%= truncate(workflow_state.title, length: 30) %>            
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+  </div>
+  <%end%>
+</div>
+
+
+  </div>
+    
+  <div class="col-lg-9">
+    <div class="row">
+    
+    <div class="col-lg-6 m-0">
+      <div id="date-accordion">
+        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse-date" aria-expanded="false" aria-controls="collapse-date">
+          <i class="fe fe-filter" style="vertical-align:-3px;"></i> <%=t :filter_date%>
+        </button>
+        <div id="collapse-date" class="collapse" aria-labelledby="heading" data-parent="#date-accordion">
+            <div class="alert alert-primary" role="alert" style="padding: 8px;">
+              <%= form_tag '/home', method: :get do%>
+                <div class="row">
+                  <div class="col-md-6 pd-0 m-0">
+                    <%=t :date_start%>
+                    <hr class="mt-1">
+                    <div class="form-group ml-0 mr-0">
+                      <% @now = JalaliDate.to_jalali(Time.now) %>
+                      <div class="row gutters-xs ml-0 mr-0">
+                      <div class='col-4'>
+                        <%= select_tag "date_start_dd", options_for_select(1..31, @now.day), { class: "form-control", style: "padding:0px;font-size:0.8rem" } %>
+                      </div>
+                      <div class='col-4'>
+                        <%= select_tag "date_start_mm", options_for_select(1..12, @now.month), { class: "form-control", style: "padding:0px;font-size:0.8rem" } %>
+                      </div>
+                      <div class='col-4'>
+                        <%= select_year(@now.year, { :start_year => 1330, :end_year => 1410 }, { class: "form-control", :name => "date_start_yyyy", style: "padding:0px;font-size:0.8rem" }) %>
+                      </div>
+                    </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 pd-0 m-0">
+                    <%=t :date_end%>
+                    <hr class="mt-1">
+                    <div class="form-group ml-0 mr-0">
+                      <% @now = JalaliDate.to_jalali(Time.now) %>
+                      <div class="row gutters-xs ml-0 mr-0">
+                      <div class='col-4'>
+                        <%= select_tag "date_end_dd", options_for_select(1..31, @now.day), { class: "form-control", style: "padding:0px;font-size:0.8rem"  } %>
+                      </div>
+                      <div class='col-4'>
+                        <%= select_tag "date_end_mm", options_for_select(1..12, @now.month), { class: "form-control", style: "padding:0px;font-size:0.8rem"  } %>
+                      </div>
+                      <div class='col-4'>
+                        <%= select_year(@now.year, { :start_year => 1330, :end_year => 1410 }, { class: "form-control", :name => "date_end_yyyy", style: "padding:0px;font-size:0.8rem"  }) %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-2 mt-1">
+                  <button type="submit" class="btn btn-primary mt-5" style="color:white;"><%=t :filter%></button>
+                </div>
+                </div>
+              <%end%>
+            </div>
+        </div>
+      </div>
+      </div>
+
+      <div class="col-lg-6 m-0">
+        <% current_workflow_state = WorkflowState.find(@home_setting.workflow_state) rescue nil %>
+        <% current_workflow = current_workflow_state.workflow rescue nil%>
+        <% if current_workflow.present? && (User.user_has_role(current_user, current_workflow_state.role_id) || grant_access("edit_workflow", current_user) || current_workflow.user_id == current_user.id)%>
+          <div id="transfer-accordion">
+            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse-transfer" aria-expanded="false" aria-controls="collapse-transfer">
+              <i class="fe fe-repeat" style="vertical-align:-3px;"></i> <%=t :workflow%> <%=t :selected_records%>
+            </button>
+            <div id="collapse-transfer" class="collapse" aria-labelledby="heading" data-parent="#transfer-accordion">
+                <div class="alert alert-primary" role="alert">
+                    <% next_workflow_states = current_workflow.next_nodes(current_workflow_state.node_id) rescue nil %>
+                    <% if next_workflow_states.present?%>
+                      <%=t :send_to%>
+                      <%= form_tag "/articles/group_send_to/1", method: :get do %>
+                      <%= hidden_field_tag 'selected_articles', nil, {id: 'selected_articles'}%>
+                      <div class="form-group">
+                        <label class="form-label"></label>
+                        <%= select_tag  "workflow_state", options_for_select(next_workflow_states.collect { |p| [ p.title, p.id ] }), {class: "form-control"} %>
+                      </div>
+                      <div class="form-group">
+                        <%= text_area_tag  "message", nil, class: "form-control", placeholder: t(:message_content) %>
+                      </div>
+                      <div class="text-right">
+                        <button type="submit" class="btn btn-lime btn-sm"><i class="fe fe-trending-up" style="vertical-align: -3px;"></i> <%=t :send%></button>
+                      </div>
+                      <%end%>
+                    <%end%>
+                </div>
+            </div>
+          </div>
+        </div>
+      <%end%>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <i class="fe fe-feather"></i>
+
+
+ <div class="card-options">
+           <div class="dropdown ml-2" >
+            <button type="button" class="btn btn-secondary dropdown-toggle" style="font-size: 10px;" data-toggle="dropdown">
+              <%= t :sort %>
+            </button>
+            <div class="dropdown-menu" style="right: 0px !important;">
+            <% ['coming ASC', 'coming DESC', 'title ASC', 'title DESC', 'position DESC', '-position DESC'].each do |i| %>
+                <%= link_to "/home?pp=&sort=#{i.to_s}", class: "dropdown-item pd-compact" do %>
+                      <% if @home_setting.sort == i %>
+                        <i class="fe fe-check" style="vertical-align:-3px;"></i>
+                      <% end %>
+                      <% name = i.split(' ')%>
+                      <% if i != '-position DESC'%>
+                      <span id='pp-value'><%=t name[0].to_sym %> (<%=t name[1].downcase.to_sym %>)</span>
+                      <%else%>
+                      <span id='pp-value'><%=t :position_reverse %></span>
+                      <%end%>
+                <% end %>
+                <% end %>
+
+            </div>            
+          </div>
+
+          <div class="dropdown ml-2" >
+            <button type="button" class="btn btn-secondary dropdown-toggle" style="font-size: 10px;" data-toggle="dropdown">
+              <%= t :per_page %>
+            </button>
+            <div class="dropdown-menu" style="right: 0px !important;">
+            <% [5, 10, 20, 100].each do |i| %>
+                <%= link_to "?pp=" + i.to_s, id: "pp", class: "dropdown-item pd-compact" do %>
+                                      <% if @home_setting.pp == i %>
+                        <i class="fe fe-check" style="vertical-align:-3px;"></i>
+                      <% end %>
+                      <span id='pp-value'><%= i %></span>
+
+                <% end %>
+                <% end %>
+
+            </div>            
+          </div>
+
+            <div class="dropdown ml-2" >
+            <button type="button" class="btn btn-secondary dropdown-toggle" style="font-size: 10px;" data-toggle="dropdown">
+              <%= t :view %>
+            </button>
+            <div class="dropdown-menu" style="right: 0px !important;">
+                <%= link_to "/home?archived=0", id: "all", class: "dropdown-item pd-compact" do %>
+                  <% if @home_setting.archived == 0 %>
+                    <i class="fe fe-check" style="vertical-align:-3px;"></i>
+                  <% end %>
+                  <span id='pp-value'><%= t :all %></span>
+                <% end %>
+                <%= link_to "/home?archived=1", id: "archived", class: "dropdown-item pd-compact" do %>
+                  <% if @home_setting.archived == 1 %>
+                    <i class="fe fe-check" style="vertical-align:-3px;"></i>
+                  <% end %>
+                  <span id='pp-value'><%= t :archived %></span>
+                <% end %>
+                <%= link_to "/home?archived=-1", id: "unarchived", class: "dropdown-item pd-compact" do %>
+                  <% if @home_setting.archived == -1 %>
+                    <i class="fe fe-check" style="vertical-align:-3px;"></i>
+                  <% end %>
+                  <span id='pp-value'><%= t :unarchived %></span>
+                <% end %>
+            </div>            
+        </div>   
+  </div>
+
+
+      </div>
+      <% if @articles.blank? %>
+      <div class='card-body' style="padding-bottom: 25px !important;">
+        <div class="alert alert-info" role="alert">
+          <%= t :no_new_article_in_your_dashboard %>
+        </div>
+      </div>
+      <% else %>
+        <%= render partial: "articles/list_wo_progress", locals: { articles: @articles, page: params[:page] } %>
+      <% end %>
+
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <i class="fe fe-repeat"></i>&nbsp&nbsp<%= t :your_workflows %>
+      </div>
+        <%= render partial: "workflows/list", locals: { workflows: current_user.workflows } %>
+    </div>
+
+  </div>
+  <!--
+  <div class="col-lg-2">
+
+      <div class="card p-3 pr-2">
+      <a href='/articles/new'>
+      <div class="d-flex align-items-center">
+        <span class="stamp stamp-md bg-green mr-3">
+          <i class="fe fe-plus" style='vertical-align:-3px'></i>
+        </span>
+        <div class="mt-1">
+          <h4 class="m-0 fs-12"><%= t :new_article %></h4>
+          <small class="text-muted"></small>
+        </div>
+      </div>
+      </a>
+    </div>
+
+    <div class="card p-3 pr-2">
+      <div class="d-flex align-items-center">
+        <span class="stamp stamp-md bg-blue mr-3">
+          <i class="fe fe-feather" style='vertical-align:-3px'></i>
+        </span>
+        <div class="mt-1">
+          <h4 class="m-0 fs-12"><%= t :articles %></h4>
+          <small class="text-muted"><% if !@articles.blank? %><%= @articles.count %><% else %>0<% end %></small>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <i class="fe fe-bell"></i>&nbsp&nbsp<%= t :notifications %>
+      </div>
+      <table class="table  card-table  table-vcenter">
+          <tbody>
+            <% if !@notifications.blank? %>
+            <% for notification in @notifications %>
+            <% if notification.valid && !notification.blank? %>
+            <tr>
+              <td style="padding-right:10px; padding-left:0px;"><%= raw notification.icon %></td>
+              <td style="padding-right:10px; padding-left:0px; font-size:12px;"><%= raw notification.title %></td>
+              <td style="padding-right:10px; padding-left:0px;"><span style='font-size:9px;'><%= t notification.notification_type %></span></td>
+            </tr>
+            <% end %>
+            <% end %>
+            <% end %>
+          </tbody>
+      </table>
+    </div>
+-->
+  </div>
+</div>

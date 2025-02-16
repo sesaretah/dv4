@@ -1,0 +1,144 @@
+<%= render partial: "articles/progress_bar", locals: { article: @article, active: ["titles"] } %>
+<%= form_for(@article, html: { class: "card" }) do |f| %>
+<div class="card-header">
+  <h3 class="card-title"><%= t :titles_and_workflows %></h3>
+</div>
+<%= hidden_field_tag "caller", "mainform" %>
+<% if @article.errors.any? %>
+<div id="error_explanation">
+  <h2><%= pluralize(@article.errors.count, "error") %> prohibited this article from being saved:</h2>
+
+  <ul>
+    <% @article.errors.full_messages.each do |message| %>
+    <li><%= message %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+
+<div class="card-body">
+  <div class="alert alert-info" role="alert">
+    <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <label class="form-label"><%= t :workflow %></label>
+        <% if (@article.workflow_state.blank? || @article.workflow_state.workflow.user_id == current_user.id) && !@workflows.blank? %>
+          <% if @selected_ws.blank? %>
+            <%= select_tag "workflow", options_for_select(@workflows.collect { |p| [p.title, p.id] }), { class: "form-control" } %>
+          <%else %>
+            <%= text_field_tag "workflow", @selected_ws.workflow.title, class: "form-control", disabled: true %>
+            <%= hidden_field_tag :workflow_id ,  @selected_ws.workflow.id %>
+          <%end%>
+        <% else %>
+        <%= text_field_tag "workflow", @article.workflow_state.workflow.title, class: "form-control", disabled: true %>
+    
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-5">
+      <div class="form-group">
+        <%= f.label :workflow_state_id, class: "form-label" %>
+        <% if @article.workflow_state %>
+        <%= text_field_tag :workflow_state_id, @article.workflow_state.title, class: "form-control", disabled: true %>
+        <% else %>
+        <% if @selected_ws.blank? %>
+          <%= select_tag :workflow_state_id, options_for_select(@workflows.first.user_start_workflow_states(current_user).collect { |p| [p.title, p.id] }), { class: "form-control" } %>
+        <%else%>
+          <%= text_field_tag :workflow_state_id, @selected_ws.title, class: "form-control", disabled: true %>
+          <%= hidden_field_tag :workflow_state_id ,  @selected_ws.id %>
+        <%end%>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <script>
+  $( "#workflow" ).change(function() {
+    var workflow_id = this.value
+  $.get( "/workflows/start_workflow_states/"+workflow_id, function( data ) {
+var $el = $("#workflow_state_id");
+$el.empty();
+$.each(data, function(index,item) {
+
+  $el.append($("<option></option>")
+     .attr("value", item.id).text(item.title));
+});
+});
+});
+  </script>
+  </div>
+
+  <% if permit_by_workflow(@article, current_user, "title") %>
+  <hr class="mt-2 mb-4"/>
+
+  <div class="row">
+    <div class="col-md-10">
+      <div class="form-group">
+        <%= f.label :title, class: "form-label" %>
+        <%= f.text_field :title, maxlength: 150, class: "form-control", required: "", oninvalid: "this.setCustomValidity(this.willValidate ? '' :'#{t(:please_enter_data_in_this_field)}')" %>
+      </div>
+    </div>
+  </div>
+  <p id='similar_titles' style="display:none">
+    <b><%= t :similar_titles %></b>
+    <ul id='similars'></ul>
+  </p>
+  <script>
+  $('#article_title').keyup(function() {
+    var query = $('#article_title').val();
+    $.ajax({
+      url: '/articles/title_search/1',
+      type: 'GET',
+      dataType: 'json',
+      data: {
+        q: query,
+      },
+      error: function() {
+        $('#similar_titles').hide();
+      },
+      success: function(res) {
+        if (res.length > 0) {
+          $('#similar_titles').show();
+        } else {
+          $('#similar_titles').hide();
+        }
+
+        $('#similars').html('');
+        for (var i = 0, len = res.length; i < len; i++) {
+          $('#similars').append("<li><a href='/articles/"+ res[i].id +"'>"+ res[i].title+'</a></li>');
+        }
+      }
+    });
+  });
+  </script>
+
+  <div class="row">
+    <div class="col-md-10">
+      <div class="form-group">
+        <%= f.label :description, class: "form-label" %>
+        <%= f.text_field :description, maxlength: 200, class: "form-control" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert alert-warning" role="alert">
+    <%= t :other_titles %>
+    <%= link_to "/titlings/add_item/1", remote: true do %>
+    <i class="fe fe-plus-circle" style="vertical-align:-3px;"></i>
+    <% end %>
+  </div>
+
+  <div id='titling-items'>
+    <% for titling in @article.titlings %>
+    <%= render partial: "titlings/remote_item", locals: { titling: titling } %>
+    <% end %>
+  </div>
+  <%= hidden_field_tag :form_type, params[:form_type] %>
+<% end %>
+  <div class="card-footer text-right">
+    <button type="submit" class="btn btn-primary"><%= t :submit_and_go %></button>
+  </div>
+  <% end %>
+</div>

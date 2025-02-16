@@ -1,0 +1,42 @@
+<div id='vote-comments'>
+<ul class='list-group card-list-group'>
+  <% for comment in comments %>
+  <li class="list-group-item py-2">
+    <div class="media">
+      <div class="media-object avatar avatar-md mr-4" style="background-image: url(<%= comment.user.profile.avatar_url(:thumb) %>)"></div>
+      <div class="media-body">
+        <div class="media-heading">
+          <small class="float-right text-muted">
+            <span>
+              <% @jalali = JalaliDate.to_jalali(comment.created_at) %>
+              <%= @jalali.year %>/<%= @jalali.month %>/<%= @jalali.day %> (<%= comment.created_at.strftime("%H:%M") %>)
+            </span>
+            <%= link_to comment, method: :delete, remote: true, data: { confirm: "#{t(:are_you_sure_?)}" } do %>
+              <i class="fe fe-trash" style="vertical-align:-3px"></i>
+            <% end %>
+          </small>
+          <h6><%= comment.user.profile.fullname %></h6>
+        </div>
+        <div>
+
+          <p class="convert-emoji" style='text-align:justify;'>
+            <%= comment.content %>
+          </p>
+
+          <script type="text/javascript">
+          $(document).ready(function() {
+            $(".convert-emoji").each(function() {
+              var original = $(this).html();
+              emojione.emojiSize = '32'
+              var converted = emojione.unicodeToImage(original);
+              $(this).html(converted);
+            });
+          });
+          </script>
+        </div>
+      </div>
+    </div>
+  </li>
+  <% end %>
+</ul>
+</div>

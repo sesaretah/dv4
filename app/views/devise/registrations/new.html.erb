@@ -1,0 +1,75 @@
+<div class="container">
+  <div class="row">
+    <div class="col col-login mx-auto">
+
+      <div class="alert alert-warning" role="alert">
+<%= devise_error_messages! %>
+              <% @sso = Sso.where(uuid: params[:sso]).first%>
+              <% if !@sso.blank? && @sso.status == 'success'%>
+              <%=t :you_are_authenticated_as%> <br />
+              <%= @sso.utid%> <br />
+              <%=t :please_fill_in_the_following_to_proceed%>
+              <%end%>
+</div>
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: 'card'}) do |f| %>
+
+      <div class="card-body p-6">
+        <div class="d-flex mb-6 mr-auto ml-auto">
+          <img src="/assets/logo.png" style="height: 5rem !important;" alt="">
+        </div>
+        <div class="card-title"><%=t :sign_up%></div>
+
+        <div class="form-group">
+          <label class="form-label"><%=t :name%><span class="form-required">*</span></label>
+          <%= f.text_field :name, class:"form-control" %>
+        </div>
+
+                <div class="form-group">
+          <label class="form-label"><%=t :surename%><span class="form-required">*</span></label>
+          <%= f.text_field :surename, class:"form-control" %>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label"><%=t :email%><span class="form-required">*</span></label>
+          <% if !@sso.blank? && @sso.status == 'success'%>
+            <%= f.text_field :email, value: "#{@sso.utid}@ut.ac.ir", class:"form-control" %>
+          <%else%>
+            <%= f.text_field :email, class:"form-control" %>
+            <%end%>
+        </div>
+        <% if !params[:sso].blank?%>
+
+          <% if !@sso.blank? && @sso.status == 'success'%>
+            <%= hidden_field_tag :sso, params[:sso]%>
+            <div class="alert alert-info" role="alert">
+              <i class="fe fe-alert-triangle" style="vertical-align: -3px;"></i>
+              <span class="small"><%=t :set_password_if_you_want_to_use_mobile_app%></span>
+            </div>
+          <%end%>
+        <%end%>
+        <div class="form-group">
+          <label class="form-label" for="user_password">
+            <%=t :password%>
+            <% if @minimum_password_length %>
+            <em>(<%= @minimum_password_length %> <%=t :characters_minimum%>)</em>
+            <% end %>
+          </label>
+
+          <%= f.password_field :password, autocomplete: "new-password", class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :password_confirmation, class:"form-label" %>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", class:"form-control" %>
+        </div>
+
+        <div class="form-footer mb-3">
+          <button type="submit" class="btn btn-blue btn-block"><%=t :sign_up%></button>
+        </div>
+      </div>
+      <%end%>
+      <div class="text-center text-muted">
+        <%=t :already_have_account%> <a class="text-green" href="/users/sign_in"><%=t :sign_in%></a>
+      </div>
+    </div>
+  </div>
+</div>

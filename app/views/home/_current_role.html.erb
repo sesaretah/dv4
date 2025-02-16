@@ -1,0 +1,17 @@
+<div id='current_role'>
+  <% for role in current_user.roles%>
+    <%= link_to '/home/change_current_role?role_id=' + role.id.to_s,  class: "dropdown-item pd-compact", remote: true do%>
+      <%if current_user.current_role_id == role.id%>
+        <i class="fe fe-check" style="vertical-align:-3px;"></i>
+      <%else%>
+      <span class='mr-2'></span>
+      <%end%>
+      <% if !role.abr.blank? %>
+      <span data-toggle="tooltip" data-placement="top" title="<%= role.title%>">
+      <%= role.abr%>
+      <%else%>
+<%= truncate(role.title, length: 20)%>
+      <%end%>
+    <%end%>
+  <%end%>
+</div>

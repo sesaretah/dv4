@@ -1,0 +1,72 @@
+<div class="card-body" id='article-show'>
+  <% for workflow_transition in WorkflowTransition.where(article_id: article.id).order('created_at desc')%>
+    <% @from = WorkflowState.find(workflow_transition.from_state_id).title%>
+    <% @to = WorkflowState.find(workflow_transition.to_state_id).title%>
+
+  <div class="alert alert-secondary" role="alert" style="font-size: 0.8rem;background-color: #f3f3f3;">
+    <p>
+      <b><%=t :transition%> </b>
+      <% if workflow_transition.transition_type == 1%>
+        <div class="tag tag-gray">
+        <%= @from%><i class="fe fe-arrow-left" style="vertical-align:12px;margin-top: 6px;"></i><%= @to%>
+          <span class="tag-addon tag-success"><i class="fe fe-trending-up" style="vertical-align: -3px;"></i></span>
+          
+        </div>
+        <span class="tag tag-dark" style="font-family: sans-serif !important;direction: ltr; vertical-align:-2px;">#<%= workflow_transition.revision_number%></span>
+      <%else%>
+      <div class="tag tag-gray">
+       <%= @from%> <i class="fe fe-arrow-left" style="vertical-align:12px;margin-top: 6px;"></i> <%= @to%>
+        <span class="tag-addon tag-danger"><i class="fe fe-trending-down" style="vertical-align: -3px;"></i></span>
+      </div>
+      <span class="tag tag-dark" style="font-family: sans-serif !important;direction: ltr; vertical-align:-2px;">#<%= workflow_transition.revision_number%></span>
+      <%end%>
+                  <% @jalali = JalaliDate.to_jalali(workflow_transition.created_at)%>
+            
+      <span class="tag tag-cyan" style="font-family: sans-serif !important; vertical-align:-2px;"><%= @jalali.year%>/<%= @jalali.month%>/<%= @jalali.day%></span>
+      </p>
+      <p>
+        <b><%=t :by%> </b>
+        <div class="tag tag-dark" style="vertical-align: 6px;">
+            <%= truncate(workflow_transition.user.profile.fullname, length: 15)%>
+            <span class="tag-addon tag-blue"><i class="fe fe-user" style="vertical-align: -3px;"></i></span>
+            
+        </div>
+      </p>
+      <p><b><%=t :with_message%></b></br>
+        <%= workflow_transition.message%>
+      </p>
+
+      <% voting = Voting.where(votable_type: "WorkflowState", votable_id: workflow_transition.from_state_id).first %>
+
+      <% if !voting.blank?%>
+      <p>
+      <%= t :agree %>: <br />
+      <% yay_votes = Vote.where(voting_id: voting.id, outcome: 1, article_id: workflow_transition.article_id) %>
+      <% for vote in yay_votes %>
+      <% if !vote.user.blank? && !vote.user.profile.blank? %>
+         <span class="tag mt-2 lime  btn-lime" style='vertical-align: -3px;'>
+             <span class="tag-avatar avatar" style="background-image: url('<%= vote.user.profile.avatar_url(:tiny) %>')"></span>
+             <%= truncate(vote.user.profile.fullname, length: 35) %>
+         </span>
+         <% end %>
+      <% end %>
+      </p>
+
+      <p>
+      <%= t :oppose %>: <br />
+      <% nay_votes = Vote.where(voting_id: voting.id, outcome: -1, article_id: workflow_transition.article_id) %>
+      <% for vote in nay_votes %>
+      <% if !vote.user.blank? && !vote.user.profile.blank? %>
+         <span class="tag mt-2" style='vertical-align: -3px;'>
+             <span class="tag-avatar avatar" style="background-image: url('<%= vote.user.profile.avatar_url(:tiny) %>')"></span>
+             <%= truncate(vote.user.profile.fullname, length: 35) %>
+         </span>
+         <% end %>
+      <% end %>
+      </p>
+
+
+      <%end%>
+    </div>
+    <%end%>
+  </div>

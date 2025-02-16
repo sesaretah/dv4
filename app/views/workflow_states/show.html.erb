@@ -1,0 +1,36 @@
+<div class='row'>
+  <div class="col-lg-3">
+    <div class="card">
+      <div class="card-body" style="padding: 1rem;">
+        <div class="list-group list-group-transparent mb-0">
+          <a href="#" class="list-group-item list-group-item-action d-flex align-items-center active" style="color: #464a4e;font-size:smaller; background-color: #e7e8ea;border-color: #dddfe2;">
+            <%= @workflow_state.workflow.title %>
+          </a>
+          <a href="#" class="list-group-item list-group-item-action d-flex align-items-center active mt-1" style="font-size:smaller;">
+            <%= @workflow_state.title %>
+          </a>
+          <div class='mt-2 mr-3 ml-3 mb-2' style="font-size:smaller; text-align:justify;">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-9 order-lg-1">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title"></h3>
+        <div class="card-options">
+          <%= link_to "/workflow_states/workflow_state_articles/#{@workflow_state.id}", remote: true, class: "btn btn-secondary btn-sm ml-1" do %>
+          <i class="fe fe-book-open" style="vertical-align: -3px;"></i> <%=t :articles%>
+          <%end%>
+          <%= link_to "/workflow_states/view_remote/#{@workflow_state.id}", remote: true, class: "btn btn-secondary btn-sm ml-1" do %>
+          <i class="fe fe-play" style="vertical-align: -3px;"></i> <%=t :show%>
+          <%end%>
+        </div>
+      </div>
+      <div class="card-body">
+        <%= render partial: 'workflow_states/detail', locals: {workflow_state: @workflow_state}%>
+      </div>
+    </div>
+  </div>
+</div>

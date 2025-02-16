@@ -1,0 +1,232 @@
+<%= form_for article, html: { id: "discriptors" } do |f| %>
+<%= hidden_field_tag "caller", "descriptors" %>
+<% if article.errors.any? %>
+<div id="error_explanation">
+    <h2><%= pluralize(article.errors.count, "error") %> prohibited this article from being saved:</h2>
+
+    <ul>
+        <% article.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+        <% end %>
+    </ul>
+</div>
+<% end %>
+
+
+
+<div class="card-body">
+
+    <% if permit_by_workflow(article, current_user, "title") %>
+    <% if defined?(state_page) && !state_page.blank? %>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <%= f.label :title, class: "form-label" %>
+                <%= f.text_field :title, class: "form-control" %>
+            </div>
+        </div>
+    </div>
+    <% end %>
+    <% end %>
+
+    <% if permit_by_workflow(article, current_user, "abstract") %>
+    <% if !defined?(state_page) || (!state_page.blank? && state_page.item_abstract) %>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <%= f.label :abstract, class: "form-label" %>
+                <%= f.text_area :abstract, row: 4, class: "form-control" %>
+            </div>
+        </div>
+    </div>
+    <% end %>
+    <% end %>
+
+    <% if !defined?(state_page) || (!state_page.blank? && state_page.item_notes) %>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <%= f.label :notes, class: "form-label" %>
+                <%= f.text_area :notes, row: 4, class: "form-control" %>
+            </div>
+        </div>
+    </div>
+    <% end %>
+
+
+    <% if permit_by_workflow(article, current_user, "content") %>
+    <% if !defined?(state_page) || (!state_page.blank? && state_page.item_content) %>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="form-label"><%= t :content_templates %></label>
+                <%= f.select :content_template_id, ContentTemplate.all.collect { |p| [p.title, p.id] }, { include_blank: true }, { :class => "form-control col-md-4 col-xs-12" } %>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <%= f.label :content, class: "form-label" %>
+                <%= f.cktext_area :content, id: "sometext" %>
+                <%= f.hidden_field :content%>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.addEventListener('load', function() {
+            CKEDITOR.replace('sometext')
+        });
+    </script>
+    <% end %>
+    <% end %>
+
+
+    <% if permit_by_workflow(article, current_user, "url") %>
+    <% if !defined?(state_page) || (!state_page.blank? && state_page.item_url) %>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <%= f.label :url, class: "form-label" %>
+                <%= f.text_field :url, class: "form-control", style: "direction: ltr;" %>
+            </div>
+        </div>
+    </div>
+    <% end %>
+    <% end %>
+
+    <% if !defined?(state_page) || (!state_page.blank? && state_page.item_dimensions) %>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <%= f.label :dimensions, class: "form-label" %>
+                <%= f.text_field :dimensions, class: "form-control" %>
+            </div>
+        </div>
+    </div>
+    <% end %>
+
+    <% if !defined?(state_page) || (!state_page.blank? && state_page.item_retrieval_number) %>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <%= f.label :retrieval_number, class: "form-label" %>
+                <%= f.text_field :retrieval_number, class: "form-control" %>
+            </div>
+        </div>
+    </div>
+    <% end %>
+
+    <% if !defined?(state_page) || (!state_page.blank? && state_page.item_position) %>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <%= f.label :position, class: "form-label" %>
+                <%= f.text_field :position, class: "form-control" %>
+            </div>
+        </div>
+    </div>
+    <% end %>
+    <% end %>
+</div>
+
+<% if params[:edit].blank? %>
+<script>
+    $('.form-control').bind('change keyup input', function() {
+        $('#discriptors').delay(300).submit();
+    });
+    window.addEventListener('load', function() {
+        CKEDITOR.config.language = "fa";
+        CKEDITOR.config.ContentLangDirection = "rtl";
+        CKEDITOR.config.height = 360;
+        CKEDITOR.config.toolbarGroups = [{
+                name: "document",
+                groups: ["mode", "document", "doctools"]
+            },
+            {
+                name: "clipboard",
+                groups: ["clipboard", "undo"]
+            },
+            {
+                name: "editing",
+                groups: ["find", "selection", "spellchecker", "editing"],
+            },
+            {
+                name: "forms",
+                groups: ["forms"]
+            },
+            {
+                name: "basicstyles",
+                groups: ["basicstyles", "cleanup"]
+            },
+            {
+                name: "paragraph",
+                groups: ["list", "indent", "blocks", "align", "bidi", "paragraph"],
+            },
+            "/",
+            {
+                name: "links",
+                groups: ["links"]
+            },
+            {
+                name: "insert",
+                groups: ["insert"]
+            },
+            {
+                name: "styles",
+                groups: ["styles"]
+            },
+            //{ name: 'colors', groups: [ 'colors' ] },
+            {
+                name: "tools",
+                groups: ["tools"]
+            },
+            {
+                name: "others",
+                groups: ["others"]
+            },
+            {
+                name: "about",
+                groups: ["about"]
+            },
+        ];
+
+        CKEDITOR.config.removePlugins = "notification";
+
+        CKEDITOR.instances.sometext.on('change', function(e) {
+            var self = this;
+            var data = CKEDITOR.instances.sometext.getData();
+            $('#article_content').val(data);
+            setTimeout(function() {
+                CKEDITOR.instances.sometext.updateElement();
+                $('#discriptors').submit();
+                //      console.log(self.getData());
+            }, 300);
+        });
+    });
+    $("#discriptors").submit(function(event) {
+        event.preventDefault();
+        $.ajax({
+            type: "post",
+            dataType: "html",
+            url: '/articles/<%= @article.id %>',
+            data: $("#discriptors").serialize(),
+            success: function(response) {
+                //write here any code needed for handling success         }
+            }
+        });
+    });
+</script>
+<%else%>
+
+<script>
+    window.addEventListener('load', function() {
+        CKEDITOR.config.skin = 'flat';
+        CKEDITOR.config.startupFocus = true;
+        CKEDITOR.instances.sometext.on('change', function(e) {
+            var data = CKEDITOR.instances.sometext.getData();
+            $('#article_content').val(data);
+        });
+    });
+</script>
+<%end%>

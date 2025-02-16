@@ -1,0 +1,19 @@
+<%= render partial: 'articles/progress_bar', locals: {article: @article, active: ['titles', 'descriptors', 'related_dates', 'other_details']}%>
+
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title"><%=t :other_details%></h3>
+  </div>
+  <div class="card-body">
+
+  <%= render partial: 'articles/types_form', locals: {article: @article}%>
+  <%= render partial: 'articles/language_form', locals: {article: @article}%>
+  <%= render partial: 'articles/formats_form', locals: {article: @article}%>
+  <%= render partial: 'articles/publish_sources_form', locals: {article: @article}%>
+</div>
+
+<div class="card-footer text-right">
+  <a href='/articles/article_other_details/<%= @article.id%>' class="btn btn-lime"><%=t :back%></a>
+  <a href='/articles/article_contributions/<%= @article.id%>' class="btn btn-primary"><%=t :submit_and_go%></a>
+</div>
+</div>

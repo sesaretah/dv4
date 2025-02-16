@@ -1,0 +1,46 @@
+<%= form_for(kinship, remote: true,html: {id: 'article_kinships_form'}) do |f| %>
+<% if kinship.errors.any? %>
+<div id="error_explanation">
+  <h2><%= pluralize(kinship.errors.count, "error") %> prohibited this kinship from being saved:</h2>
+
+  <ul>
+    <% kinship.errors.full_messages.each do |message| %>
+    <li><%= message %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+<span id='article_id' style='display:none;'><%= article.id%></span>
+
+  <%= f.hidden_field :article_id , value: article.id %>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= f.label :article_relation_type_id, class: "form-label" %>
+        <% last = Kinship.where(article_id: article.id).last%>
+        <% if last.present? %>
+          <%= f.select "article_relation_type_id", options_for_select(ArticleRelationType.all.collect { |p| [p.title, p.id] }, last.article_relation_type_id), {}, { class: "form-control" } %>
+        <%else%>
+          <%= f.select "article_relation_type_id", options_for_select(ArticleRelationType.all.order(:title).collect { |p| [p.title, p.id] }), {:include_blank => true}, { class: "form-control" } %>
+        <%end%>
+        <% text_field_tag :article_relation_type, nil , class: "form-control" %>
+        <% f.hidden_field :article_relation_type_id , value: '' %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <%= f.label :kin_id, class: "form-label" %>
+        <%= text_field_tag :article_kin, nil , class: "form-control" %>
+        <%= f.hidden_field :kin_id , value: '' %>
+      </div>
+    </div>
+  </div>
+  <script>
+$(document).on("focus", "#article_kin", fireAutoCompleteEvent());
+</script>
+  <div class="card-footer text-right">
+    <button type="submit" class="btn btn-primary"><%=t :submit%></button>
+  </div>
+<% end %>

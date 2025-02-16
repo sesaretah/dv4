@@ -1,0 +1,32 @@
+<% if permit_by_workflow(article, current_user,'article_format')%>
+<div class="form-group">
+  <div class="form-label"><%=t :publish_sources%></div>
+  <div>
+    <% for publish_source in PublishSource.all%>
+    <label class="custom-control custom-radio custom-control-inline">
+      <input type="radio" class="custom-control-input" name="publish_source" id="publish_source_<%= publish_source.id%>" <% if @article.publish_source_id == publish_source.id %>checked<%end%> value="option3">
+      <span class="custom-control-label" style='padding-right: 23px;padding-top: 2px;'><%= publish_source.title%></span>
+    </label>
+    <script>
+    $('#publish_source_<%= publish_source.id%>').change(function() {
+        $.ajax({
+          url: '/publish_sources/remotec/1',
+          type: 'GET',
+          dataType: 'json',
+          data: {
+            article_id: <%= article.id%>,
+            publish_source_id: <%= publish_source.id %>
+          },
+          error: function() {
+            $(this).attr("checked", false);
+          },
+          success: function(res) {
+            $(this).attr("checked", true);
+          }
+        });
+    });
+    </script>
+    <%end%>
+  </div>
+</div>
+<%end%>
