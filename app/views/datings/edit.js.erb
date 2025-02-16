@@ -1,0 +1,8 @@
+$("#artcile_datings_form").html("<%= j(render(:partial => 'datings/remote_form', locals: {article: @article, dating: @dating})) %>");
+new Noty({
+    type: 'info',
+    theme    : 'relax',
+    timeout: 2000,
+    layout: 'bottomLeft',
+    text: '<%=t :now_you_can_edit%>'
+}).show();

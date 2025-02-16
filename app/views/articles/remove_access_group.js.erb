@@ -1,0 +1,2 @@
+$("#article-show").html("<%= j(render(:partial => 'articles/article_publishable', locals: {article: @article})) %>");
+fireAutoCompleteEvent();

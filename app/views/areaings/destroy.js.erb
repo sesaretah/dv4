@@ -1,0 +1,9 @@
+$("#article_areaings_list").html("<%= j(render(:partial => 'areaings/list', locals: {article: @article})) %>");
+$("#article_areaings_form").html("<%= j(render(:partial => 'areaings/remote_form', locals: {article: @article, areaing: Areaing.new})) %>");
+new Noty({
+    type: 'error',
+    theme    : 'relax',
+    timeout: 2000,
+    layout: 'bottomLeft',
+    text: '<%=t :destroyed_successfully%>'
+}).show();

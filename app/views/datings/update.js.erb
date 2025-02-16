@@ -1,0 +1,9 @@
+$("#article_datings_list").html("<%= j(render(:partial => 'datings/list', locals: {article: @article})) %>");
+$("#article_datings_form").html("<%= j(render(:partial => 'datings/remote_form', locals: {article: @article, dating: Dating.new})) %>");
+new Noty({
+    type: 'success',
+    theme    : 'relax',
+    timeout: 2000,
+    layout: 'bottomLeft',
+    text: '<%=t :updated_successfully%>'
+}).show();

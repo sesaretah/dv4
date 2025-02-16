@@ -1,0 +1,9 @@
+$("#current_role").html("<%= j(render(:partial => 'home/current_role')) %>");
+location.reload();
+new Noty({
+    type: 'success',
+    theme    : 'relax',
+    timeout: 2000,
+    layout: 'bottomLeft',
+    text: '<%=t :role_changed_successfully%>'
+}).show();
