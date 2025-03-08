@@ -16,7 +16,7 @@ test:
 
 production:
   <<: *default
-  database: dv4_development_production
+  database: divan
   username: pgloader
   password: 123456aA
   host: 172.16.23.104
