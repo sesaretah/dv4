@@ -1,5 +1,5 @@
 
-module JWTWrapper
+module JwtWrapper
   extend self
 
   def encode(payload, expiration = nil)

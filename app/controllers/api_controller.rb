@@ -54,7 +54,7 @@ class ApiController < ApplicationController
   def login
     if User.find_by_email(params['email']).try(:valid_password?, params[:password])
       @user = User.find_by_email(params['email'])
-      render :json => {result: 'OK', token: JWTWrapper.encode({ user_id: @user.id }), user_id: @user.id}.to_json , :callback => params['callback']
+      render :json => {result: 'OK', token: JwtWrapper.encode({ user_id: @user.id }), user_id: @user.id}.to_json , :callback => params['callback']
     else
       render :json => {result: 'ERROR',  error: I18n.t(:doesnt_match) }.to_json , :callback => params['callback']
     end
@@ -64,7 +64,7 @@ class ApiController < ApplicationController
     @user = User.new(email: params['email'], password: params['password'], password_confirmation: params['password_confirmation'])
     if @user.save
       @profile = Profile.create(user_id: @user.id, name: params[:name])
-      render :json => {result: 'OK', token: JWTWrapper.encode({ user_id: @user.id })}.to_json, :callback => params['callback']
+      render :json => {result: 'OK', token: JwtWrapper.encode({ user_id: @user.id })}.to_json, :callback => params['callback']
     else
       render :json => {result: 'ERROR', error: @user.errors }.to_json , :callback => params['callback']
     end
