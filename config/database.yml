@@ -17,3 +17,6 @@ test:
 production:
   <<: *default
   database: dv4_development_production
+  username: pgloader
+  password: 123456aA
+  host: 172.16.23.104
