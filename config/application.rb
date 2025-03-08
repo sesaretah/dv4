@@ -22,6 +22,7 @@ module Dv4
     config.i18n.default_locale = :fa
     config.autoload_paths << Rails.root.join("lib")
     config.assets.precompile += %w( ckeditor/* )
+    config.active_support.key_generator_hash_digest_class = OpenSSL::Digest::SHA1
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
