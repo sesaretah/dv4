@@ -52,10 +52,10 @@ Rails.application.configure do
   config.force_ssl = false
 
   # Log to STDOUT by default
-  config.logger = ActiveSupport::Logger.new(STDOUT)
+  config.logger = ActiveSupport::Logger.new("log/production.log", 5, 100.megabytes)
     .tap  { |logger| logger.formatter = ::Logger::Formatter.new }
     .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
-
+  #  
   # Prepend all log lines with the following tags.
   config.log_tags = [ :request_id ]
 
@@ -95,9 +95,4 @@ Rails.application.configure do
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
   # 
-  
-  config.log_level = :info # Other options: :debug, :warn, :error
-  config.log_tags = [:request_id]
-  config.logger = ActiveSupport::Logger.new("log/production.log", 5, 100.megabytes)
-  config.log_formatter = ::Logger::Formatter.new
 end
