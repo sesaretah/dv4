@@ -94,4 +94,10 @@ Rails.application.configure do
   # ]
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+  # 
+  
+  config.log_level = :info # Other options: :debug, :warn, :error
+  config.log_tags = [:request_id]
+  config.logger = ActiveSupport::Logger.new("log/production.log", 5, 100.megabytes)
+  config.log_formatter = ::Logger::Formatter.new
 end
