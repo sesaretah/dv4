@@ -17,6 +17,7 @@ test:
 production:
   <<: *default
   database: divan
+  schema_search_path: "divan, public"
   username: pgloader
   password: 123456aA
   host: 172.16.23.104
