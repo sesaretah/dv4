@@ -1,3 +1,5 @@
+require 'nokogiri'
+
 class ArticlesController < ApplicationController
   before_action :set_article, only: %i[show edit update destroy article_descriptors article_related_dates article_other_details article_contributions article_relations send_to refund_to workflow_transitions article_detail article_logs compare article_states article_comments print change_workflow make_a_copy article_publishable change_access_group
                                        sectioned_form raw_print content_form set_note_template add_access_group remove_access_group raw_single_print
@@ -271,7 +273,8 @@ class ArticlesController < ApplicationController
             kin = kinship.kin
             doc.replace("r#{index}", kin.title)
             doc.replace("300010#{index}", kin.abstract)
-            doc.replace("400010#{index}", strip_tags(kin.content))
+            d = Nokogiri::HTML.fragment(kin.content)
+            doc.replace("400010#{index}", strip_tags(d.text.strip))
           end
           doc.replace('1000110', @result[0][:contributors].map(&:inspect).join(', '))
           doc.replace('1000111', @result[0][:originatings].map(&:inspect).join(', '))
