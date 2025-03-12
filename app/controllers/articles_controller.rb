@@ -268,7 +268,10 @@ class ArticlesController < ApplicationController
           doc.replace('1000108', @result[0][:contributors].map(&:inspect).join(', '))
           doc.replace('1000109', @result[0][:kinships].map(&:inspect).join(', '))
           @articles.first.kinships.each_with_index do |kinship, index|
-            doc.replace("200010#{index}", kinship.map(&:inspect))
+            kin = kinship.kin
+            doc.replace("200010#{index}", kin.title)
+            doc.replace("300010#{index}", kin.abstract)
+            doc.replace("400010#{index}", kin.content)
           end
           doc.replace('1000110', @result[0][:contributors].map(&:inspect).join(', '))
           doc.replace('1000111', @result[0][:originatings].map(&:inspect).join(', '))
