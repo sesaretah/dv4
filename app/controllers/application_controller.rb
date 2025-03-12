@@ -233,7 +233,9 @@ class ApplicationController < ActionController::Base
           @article_inspect_previouses << prv.title
         end
       end
-      @article_inspect_result << { id: article.id, title: article.title, abstract: article.abstract, url: article.url, content: ActionController::Base.helpers.sanitize(article.content).gsub("<p>", "").gsub("</p>", ""), workflow_state: @article_inspect_workflow_state, workflow: @article_inspect_workflow, datings: @article_inspect_datings, typings: @article_inspect_typings, speakings: @article_inspect_speakings, formatings: @article_inspect_formatings, uploads: @article_inspect_uploads, votable: @article_inspect_votable, owner: @article_inspect_owner, nexts: @article_inspect_nexts, previouses: @article_inspect_previouses, updated_at: article.updated_at, contributors: @article_inspect_contributours, kinships: @article_inspect_kinships, originatings: @article_inspect_originatings, areaings: @article_inspect_areaings }
+      content = ActionController::Base.helpers.sanitize(article.content)
+      content = content.gsub("<p>", "").gsub("</p>", "")  if !content.blank? 
+      @article_inspect_result << { id: article.id, title: article.title, abstract: article.abstract, url: article.url, content: , workflow_state: @article_inspect_workflow_state, workflow: @article_inspect_workflow, datings: @article_inspect_datings, typings: @article_inspect_typings, speakings: @article_inspect_speakings, formatings: @article_inspect_formatings, uploads: @article_inspect_uploads, votable: @article_inspect_votable, owner: @article_inspect_owner, nexts: @article_inspect_nexts, previouses: @article_inspect_previouses, updated_at: article.updated_at, contributors: @article_inspect_contributours, kinships: @article_inspect_kinships, originatings: @article_inspect_originatings, areaings: @article_inspect_areaings }
     end
     return @article_inspect_result
   end

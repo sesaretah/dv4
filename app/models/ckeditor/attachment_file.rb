@@ -1,15 +1,28 @@
 # frozen_string_literal: true
 
 class Ckeditor::AttachmentFile < Ckeditor::Asset
-  # has_attached_file :data,
-  #                   url: '/ckeditor_assets/attachments/:id/:filename',
-  #                   path: ':rails_root/public/ckeditor_assets/attachments/:id/:filename'
+  has_one_attached :data
 
-  # validates_attachment_presence :data
-  # validates_attachment_size :data, less_than: 100.megabytes
-  # do_not_validate_attachment_file_type :data
+  validate :data_presence
+  validate :data_size
 
-  # def url_thumb
-  #   @url_thumb ||= Ckeditor::Utils.filethumb(filename)
-  # end
+  def url_thumb
+    if data.image?
+      Rails.application.routes.url_helpers.rails_representation_url(data.variant(resize_to_limit: [100, 100]))
+    else
+      Ckeditor::Utils.filethumb(data.filename.to_s)
+    end
+  end
+
+  private
+
+  def data_presence
+    errors.add(:data, "must be attached") unless data.attached?
+  end
+
+  def data_size
+    if data.attached? && data.byte_size > 100.megabytes
+      errors.add(:data, "size exceeds the 100MB limit")
+    end
+  end
 end

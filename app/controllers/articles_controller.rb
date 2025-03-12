@@ -240,37 +240,50 @@ class ArticlesController < ApplicationController
   end
 
   def print
-    @word_tempate = WordTemplate.find(params[:word_template])
+    @word_template = WordTemplate.find(params[:word_template])
     @articles = []
     @articles << Article.find(params[:id])
     @result = article_inspect(@articles)
     # render layout: 'layouts/devise'
     respond_to do |format|
       format.docx do
-        # Initialize DocxReplace with your template
-        doc = DocxReplace::Doc.new("#{@word_tempate.document.path}", "#{Rails.root}/tmp")
+        if @word_template.document.attached?
+          # Download the file to a temporary location
+          temp_file = Tempfile.new(["temp_document", ".docx"])
+          temp_file.binmode
+          temp_file.write(@word_template.document.download)
+          temp_file.rewind
+      
+          # Process with DocxReplace
+          doc = DocxReplace::Doc.new(temp_file.path, "#{Rails.root}/tmp")
 
-        # Replace some variables. $var$ convention is used here, but not required.
-        doc.replace('1000101', @result[0][:title])
-        doc.replace('1000102', @result[0][:abstract])
-        doc.replace('1000103', @result[0][:url])
-        doc.replace('1000104', @result[0][:datings])
-        doc.replace('1000105', @result[0][:typings])
-        doc.replace('1000106', @result[0][:speakings])
-        doc.replace('1000107', @result[0][:formatings])
-        doc.replace('1000108', @result[0][:contributors].map(&:inspect).join(', '))
-        doc.replace('1000109', @result[0][:kinships].map(&:inspect).join(', '))
-        doc.replace('1000110', @result[0][:contributors].map(&:inspect).join(', '))
-        doc.replace('1000111', @result[0][:originatings].map(&:inspect).join(', '))
-        doc.replace('1000112', @result[0][:areaings].map(&:inspect).join(', '))
-        doc.replace('1000113', @result[0][:content])
+          # Replace some variables. $var$ convention is used here, but not required.
+          doc.replace('1000101', @result[0][:title])
+          doc.replace('1000102', @result[0][:abstract])
+          doc.replace('1000103', @result[0][:url])
+          doc.replace('1000104', @result[0][:datings])
+          doc.replace('1000105', @result[0][:typings])
+          doc.replace('1000106', @result[0][:speakings])
+          doc.replace('1000107', @result[0][:formatings])
+          doc.replace('1000108', @result[0][:contributors].map(&:inspect).join(', '))
+          doc.replace('1000109', @result[0][:kinships].map(&:inspect).join(', '))
+          @articles.first.kinships.each_with_index do |kinship, index|
+            doc.replace("200010#{index}", kinship.map(&:inspect))
+          end
+          doc.replace('1000110', @result[0][:contributors].map(&:inspect).join(', '))
+          doc.replace('1000111', @result[0][:originatings].map(&:inspect).join(', '))
+          doc.replace('1000112', @result[0][:areaings].map(&:inspect).join(', '))
+          doc.replace('1000113', @result[0][:content])
 
-        # Write the document back to a temporary file
-        tmp_file = Tempfile.new("word_tempate_#{SecureRandom.hex(10)}", "#{Rails.root}/tmp")
-        doc.commit(tmp_file.path)
+          doc.commit(temp_file.path)
 
-        # Respond to the request by sending the temp file
-        send_file tmp_file.path, filename: "#{@article.id}.docx", disposition: 'attachment'
+          # Send the file for download
+          send_file temp_file.path, filename: "document.docx",
+                                    type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                                    disposition: "attachment"
+        else
+          render plain: "No document attached", status: :not_found
+        end
       end
     end
   end

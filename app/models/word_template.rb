@@ -1,15 +1,19 @@
-class WordTemplate < ActiveRecord::Base
-  # has_attached_file :document
-  # validates_attachment_content_type :document, :content_type => ["application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"]
-  # before_post_process :rename_avatar
+class WordTemplate < ApplicationRecord
+  has_one_attached :document
 
   belongs_to :user
   belongs_to :workflow
 
-  def rename_avatar
-    if !self.document.blank?
-      extension = File.extname(document_file_name).downcase
-      self.document.instance_write :file_name, "#{Time.now.to_i.to_s}#{extension}"
+  before_save :rename_document, if: -> { document.attached? }
+
+  private
+
+  def rename_document
+    if document.attached?
+      extension = File.extname(document.filename.to_s).downcase
+      new_filename = "#{Time.now.to_i}#{extension}"
+
+      document.blob.update!(filename: new_filename)
     end
   end
 end
