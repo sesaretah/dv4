@@ -271,10 +271,10 @@ class ArticlesController < ApplicationController
           doc.replace('1000109', @result[0][:kinships].map(&:inspect).join(', '))
           @articles.first.kinships.each_with_index do |kinship, index|
             kin = kinship.kin
-            doc.replace("r#{index}", kin.title)
+            doc.replace("200010#{index}", kin.title)
             doc.replace("300010#{index}", kin.abstract)
             d = Nokogiri::HTML.fragment(kin.content)
-            doc.replace("400010#{index}", d.text.strip)
+            doc.replace("400010#{index}", d.text.strip.to_s)
           end
           doc.replace('1000110', @result[0][:contributors].map(&:inspect).join(', '))
           doc.replace('1000111', @result[0][:originatings].map(&:inspect).join(', '))
