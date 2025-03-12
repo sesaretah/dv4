@@ -269,11 +269,9 @@ class ArticlesController < ApplicationController
           doc.replace('1000109', @result[0][:kinships].map(&:inspect).join(', '))
           @articles.first.kinships.each_with_index do |kinship, index|
             kin = kinship.kin
-            doc.replace("200010#{index}", kin.title)
+            doc.replace("r#{index}", kin.title)
             doc.replace("300010#{index}", kin.abstract)
-            content = ActionController::Base.helpers.sanitize(kin.content)
-            content = content.gsub("<p>", "").gsub("</p>", "")  if !content.blank? 
-            doc.replace("400010#{index}", content)
+            doc.replace("400010#{index}", strip_tags(kin.content))
           end
           doc.replace('1000110', @result[0][:contributors].map(&:inspect).join(', '))
           doc.replace('1000111', @result[0][:originatings].map(&:inspect).join(', '))
