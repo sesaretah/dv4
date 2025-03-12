@@ -271,7 +271,9 @@ class ArticlesController < ApplicationController
             kin = kinship.kin
             doc.replace("200010#{index}", kin.title)
             doc.replace("300010#{index}", kin.abstract)
-            doc.replace("400010#{index}", kin.content)
+            content = ActionController::Base.helpers.sanitize(kin.content)
+            content = content.gsub("<p>", "").gsub("</p>", "")  if !content.blank? 
+            doc.replace("400010#{index}", content)
           end
           doc.replace('1000110', @result[0][:contributors].map(&:inspect).join(', '))
           doc.replace('1000111', @result[0][:originatings].map(&:inspect).join(', '))
