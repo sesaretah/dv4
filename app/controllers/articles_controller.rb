@@ -261,25 +261,52 @@ class ArticlesController < ApplicationController
 
           # Replace some variables. $var$ convention is used here, but not required.
           doc.replace('1000101', @result[0][:title])
+          doc.replace('۱۰۰۰۱۰۱', @result[0][:title])
+          
           doc.replace('1000102', @result[0][:abstract])
+          doc.replace('۱۰۰۰۱۰۲', @result[0][:abstract])
+
           doc.replace('1000103', @result[0][:url])
+          doc.replace('۱۰۰۰۱۰۳', @result[0][:url])
+
           doc.replace('1000104', @result[0][:datings])
+          doc.replace('۱۰۰۰۱۰۴', @result[0][:datings])
+
           doc.replace('1000105', @result[0][:typings])
+          doc.replace('۱۰۰۰۱۰۵', @result[0][:typings])
+
           doc.replace('1000106', @result[0][:speakings])
+          doc.replace('۱۰۰۰۱۰۶', @result[0][:speakings])
+
           doc.replace('1000107', @result[0][:formatings])
+          doc.replace('۱۰۰۰۱۰۷', @result[0][:formatings])
+
           doc.replace('1000108', @result[0][:contributors].map(&:inspect).join(', '))
+          doc.replace('۱۰۰۰۱۰۸', @result[0][:contributors].map(&:inspect).join(', '))
+
           doc.replace('1000109', @result[0][:kinships].map(&:inspect).join(', '))
+          doc.replace('۱۰۰۰۱۰۹', @result[0][:kinships].map(&:inspect).join(', '))
+
           @articles.first.kinships.each_with_index do |kinship, index|
             kin = kinship.kin
             doc.replace("200010#{index}", kin.title)
+            doc.replace("۲۰۰۰۱۰#{index}", kin.title)
+
             doc.replace("300010#{index}", kin.abstract)
+            doc.replace("۳۰۰۰۱۰#{index}", kin.abstract)
             d = Nokogiri::HTML.fragment(kin.content)
             doc.replace("400010#{index}", d.text.strip.to_s)
+            doc.replace("۴۰۰۰۱۰#{index}", d.text.strip.to_s)
           end
-          doc.replace('1000110', @result[0][:contributors].map(&:inspect).join(', '))
+
           doc.replace('1000111', @result[0][:originatings].map(&:inspect).join(', '))
+          doc.replace('۱۰۰۰۱۱۱', @result[0][:originatings].map(&:inspect).join(', '))
+
           doc.replace('1000112', @result[0][:areaings].map(&:inspect).join(', '))
+          doc.replace('۱۰۰۰۱۱۲', @result[0][:areaings].map(&:inspect).join(', '))
+
           doc.replace('1000113', @result[0][:content])
+          doc.replace('۱۰۰۰۱۱۳', @result[0][:content])
 
           doc.commit(temp_file.path)
 
