@@ -255,9 +255,11 @@
     </div>
     <% @ends, @notends, @titles = [], [], [] %>
     <% for workflow in Workflow.all %>
-    <% @ends << Article.where("workflow_state_id IN (?) AND id IN (?)", workflow.end_states, @article_ids).count %>
-    <% @notends << Article.where("workflow_state_id IN (?) AND id IN (?)", workflow.not_end_states, @article_ids).count %>
-    <% @titles << workflow.title.truncate(10) %>
+    <% ends = Article.where("workflow_state_id IN (?) AND id IN (?)", workflow.end_states, @article_ids).count %>
+    <% @ends <<  ends if ends != 0%>
+    <% notends = Article.where("workflow_state_id IN (?) AND id IN (?)", workflow.not_end_states, @article_ids).count %>
+    <% @notends << notends if notends != 0 %>
+    <% @titles << workflow.title.truncate(10) if  ends != 0 ||  notends != 0 %>
     <% end %>
     <script>
     $(document).ready(function(){
