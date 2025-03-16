@@ -2,6 +2,20 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js"></script>
+    <script>
+      const chartColors = {
+      blue: "#4A90E2",
+      green: "#50E3C2",
+      red: "#D0021B",
+      yellow: "#F5A623",
+      purple: "#9013FE",
+      orange: "#FF6F61",
+      cyan: "#00BCD4",
+      pink: "#FF4081",
+      teal: "#00897B",
+      lime: "#CDDC39"
+        };
+    </script>
 <div class='row'>
   <div class="col-lg-12 col-xl-12">
     <%= form_tag "/home/reports", method: :get, class: "card" do |f| %>
@@ -87,7 +101,7 @@
           type: 'pie', // default type of chart
           colors: {
             <% @t.each do |k, v| %>
-            'data<%= k %>': randomValueOf(tabler.colors),
+            'data<%= k %>': chartColors[Object.keys(chartColors)[<%= k %> % Object.keys(chartColors).length]],
             <% end %>
           },
           names: {
@@ -132,7 +146,7 @@
           type: 'donut', // default type of chart
           colors: {
             <% for typing in @typings.keys %>
-            'data<%= typing %>': randomValueOf(tabler.colors),
+            'data<%= typing %>': chartColors[Object.keys(chartColors)[<%= typing %> % Object.keys(chartColors).length]],
             <% end %>
           },
           names: {
@@ -179,7 +193,7 @@
           labels: true,
           type: 'spline', // default type of chart
           colors: {
-            'data1': tabler.colors["green"]
+            'data1': chartColors.green
           },
           names: {
             // name of each serie
@@ -239,8 +253,8 @@
             [ 'data1', 'data2']
           ],
           colors: {
-            'data1': tabler.colors["blue"],
-            'data2': tabler.colors["pink"]
+            'data1': chartColors.blue,
+            'data2': chartColors.pink
           },
           names: {
             // name of each serie
