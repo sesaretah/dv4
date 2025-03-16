@@ -110,7 +110,7 @@
             <% end %>
           ],
           type: 'pie', // default type of chart
-          labels: true, 
+          labels: false, 
           colors: {
             <% @t.each do |k, v| %>
             'data<%= k %>': chartColors[Object.keys(chartColors)[<%= k %> % Object.keys(chartColors).length]],
@@ -124,17 +124,8 @@
         },
         axis: {
         },
-        tooltip: { // ✅ Enable tooltips
-          show: true,
-          format: {
-            title: function (d) { return 'Data Point ' + d; },
-            value: function (value,  ratio, id) {
-              return value; // Display actual value
-            }
-          }
-        },
         legend: {
-          show: true, //hide legend
+          show: false, //hide legend
         },
         padding: {
           bottom: 0,
@@ -165,7 +156,7 @@
             <% end %>
           ],
           type: 'donut', // default type of chart
-          labels: true, 
+          labels: false, 
           colors: {
             <% for typing in @typings.keys %>
             'data<%= typing %>': chartColors[Object.keys(chartColors)[<%= typing %> % Object.keys(chartColors).length]],
@@ -180,7 +171,7 @@
         axis: {
         },
         legend: {
-          show: true, //hide legend
+          show: false, //hide legend
         },
         padding: {
           bottom: 0,
