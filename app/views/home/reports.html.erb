@@ -17,16 +17,6 @@
         };
     </script>
 
-    <style>
-  .c3-chart-arc text {
-    font-size: 14px !important;
-    fill: #000 !important; /* Ensure labels are visible */
-    font-weight: bold;
-  }
-  .c3-axis-x text, .c3-axis-y text {
-    font-size: 12px !important;
-  }
-</style>
 <div class='row'>
   <div class="col-lg-12 col-xl-12">
     <%= form_tag "/home/reports", method: :get, class: "card" do |f| %>
@@ -265,7 +255,7 @@
             ['data2', <%= @notends.join(",") %>]
           ],
           type: 'bar', // default type of chart
-          labels: true,
+          labels: false,
           groups: [
             [ 'data1', 'data2']
           ],
