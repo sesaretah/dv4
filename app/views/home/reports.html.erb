@@ -47,7 +47,7 @@
               <%= select_tag "start_mm", options_for_select(1..12, @start.month), { class: "form-control" } %>
             </div>
             <div class='col-4'>
-              <%= select_year(@start.year, { :start_year => 1360, :end_year => 1400 }, { class: "form-control", :name => "start_yyyy" }) %>
+              <%= select_year(@start.year, { :start_year => 1330, :end_year => 1405 }, { class: "form-control", :name => "start_yyyy" }) %>
             </div>
           </div>
         </div>
@@ -67,7 +67,7 @@
               <%= select_tag "end_mm", options_for_select(1..12, @end.month), { class: "form-control" } %>
             </div>
             <div class='col-4'>
-              <%= select_year(@end.year, { :start_year => 1360, :end_year => 1400 }, { class: "form-control", :name => "end_yyyy" }) %>
+              <%= select_year(@end.year, { :start_year => 1330, :end_year => 1405 }, { class: "form-control", :name => "end_yyyy" }) %>
             </div>
           </div>
         </div>
