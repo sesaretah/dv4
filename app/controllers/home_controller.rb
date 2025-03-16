@@ -35,7 +35,7 @@ class HomeController < ApplicationController
       @dating_ids = Dating.where("event_date <= ? AND event_date >= ?", @end_date, @start_date).pluck(:article_id)
       @article_ids = Article.where("id IN (?)", @dating_ids).pluck(:id)
     else
-      @article_ids = Article.all.pluck(:id)
+      @article_ids =  Article.search ThinkingSphinx::Query.escape(params[:query]), per_page: 1000, star: star
     end
   end
 
