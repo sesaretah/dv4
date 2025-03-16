@@ -118,7 +118,7 @@
           },
           names: {
             <% @t.each do |k, v| %>
-            'data<%= k %>': '<%= Keyword.find(k).title.truncate(10) %>',
+            'data<%= k %>': '<%= Keyword.find(k).title.truncate(30) %>',
             <% end %>
           }
         },
@@ -251,7 +251,7 @@
     <% ends = Article.where("workflow_state_id IN (?) AND id IN (?)", workflow.end_states, @article_ids).count %>
     <% @ends <<  ends if notends != 0%>
 
-    <% @titles << workflow.title.truncate(15) if notends != 0 %>
+    <% @titles << workflow.title.truncate(30) if notends != 0 %>
     <% end %>
     <script>
     $(document).ready(function(){
