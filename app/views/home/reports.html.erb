@@ -276,7 +276,7 @@
             tick: {
               multiline: false
             },
-            categories: [<%= raw @titles.map { |i| "'" + i.to_s + "'" }.join(",") %>]
+            categories: [<%= raw @titles.map { |i| "'" + "'" }.join(",") %>]
           },
         },
         bar: {
