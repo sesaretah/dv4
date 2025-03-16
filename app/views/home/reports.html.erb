@@ -118,7 +118,7 @@
           },
           names: {
             <% @t.each do |k, v| %>
-            'data<%= k %>': '<%= Keyword.find(k).title.truncate(30) %>',
+            'data<%= k %>': '<%= Keyword.find(k).title.truncate(50) %>',
             <% end %>
           }
         },
@@ -203,7 +203,7 @@
             ['data1', <%= @dating.values.join(",") %>]
             // each columns data
           ],
-          labels: true,
+          labels: false,
           type: 'spline', // default type of chart
           colors: {
             'data1': chartColors.green
@@ -221,7 +221,7 @@
           },
         },
         legend: {
-          show: true, //hide legend
+          show: fale, //hide legend
         },
         padding: {
           bottom: 0,
@@ -251,7 +251,7 @@
     <% ends = Article.where("workflow_state_id IN (?) AND id IN (?)", workflow.end_states, @article_ids).count %>
     <% @ends <<  ends if notends != 0%>
 
-    <% @titles << workflow.title.truncate(30) if notends != 0 %>
+    <% @titles << workflow.title.truncate(50) if notends != 0 %>
     <% end %>
     <script>
     $(document).ready(function(){
